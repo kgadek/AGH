@@ -1,5 +1,5 @@
 CC 	= gcc
-CFLAGS	= -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings -lm
+CFLAGS	= -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
 LDFLAGS = -O2
 
 sorts.o: sorts.h sorts.c
