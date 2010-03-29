@@ -1,5 +1,6 @@
 #include "sorts.h"
 #include <stdio.h>
+#include <stdlib.h>
 
 int check(int *tab, int len) {
     int i, l;
@@ -102,10 +103,10 @@ void quicksort_h_mk_int(int *tab, int l, int p) {
 }
 
 void shlsort_mk(int *tab, int len) {
-    int gaps[] = {1,3,7,15,31,63,127,255,511,1023,2047,4095,8191};
+    int gaps[] = {1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535,131071, 262143, 524287};
     int i, j, gap, x, k;
     printf("Shell-Sort by MK\n");
-    for(i=0; i<13; ++i) {
+    for(i=0; i<19; ++i) {
 	gap = gaps[i];
 	for(j=gap; j<len; ++j) {
 	    x = tab[j];
@@ -117,5 +118,36 @@ void shlsort_mk(int *tab, int len) {
 	    tab[k+gap] = x;
 	}
     }
+}
+
+void mergesort_mk(int *tab, int len) {
+    printf("Merge-Sort by MK\n");
+    mergesort_mk_int(tab,0,len-1);
+}
+
+void mergesort_mk_int(int *tab, int l, int p) {
+    int s, i1, i2, i;
+    int *b;
+    b = (int*)malloc((p-l+1)*sizeof *b);
+    if(b==NULL) {
+	fprintf(stderr,"Nie mozna zadeklarowac pamieci.\n");
+	exit(1);
+    }
+    s = (l+p+1)/2;
+    if(1<s-l)
+	mergesort_mk_int(tab,l,s-1);
+    if(0<p-s)
+	mergesort_mk_int(tab,s,p);
+    i1 = l;
+    i2 = s;
+    for(i=l; i<=p; ++i) {
+	if( i1==s || (i2<=p && tab[i2]<tab[i1]) )
+	    b[i-l] = tab[i2++];
+	else
+	    b[i-l] = tab[i1++];
+    }
+    for(i=l; i<=p; ++i)
+	tab[i] = b[i-l];
+    free(b);
 }
 

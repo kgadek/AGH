@@ -7,4 +7,6 @@ void bubblesort_mk(int *, int);
 void quicksort_h_mk(int *, int);
 void quicksort_h_mk_int(int *, int, int);
 void shlsort_mk(int *, int);
+void mergesort_mk(int *, int);
+void mergesort_mk_int(int *, int, int);
 
