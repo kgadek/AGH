@@ -3,12 +3,13 @@
 #include <time.h>
 #include "sorts.h"
 
-#define ALGCNT 2
+#define ALGCNT 6
 
 int main(int argc, char *argv[]) {
     int n, i, *t, id;
     clock_t start,stop;
-    void (*funcT[])(int *, int) = { combsort_kg, nosort };
+    void (*funcT[])(int *, int) = { combsort_kg, inssort_mk, selsort_mk, \
+    			bubblesort_mk, quicksort_h_mk, shlsort_mk };
     if(argc!=2) {
 	fprintf(stderr,"Uzycie: %s ID\n\tID - id algorytmu\n",argv[0]);
 	exit(1);
