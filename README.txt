@@ -1,13 +1,13 @@
 Pusty projekt.
 
 TODO:
+ * [+] Comb Sort
  * Insertion Sort
  * Insertion Sort (na listach)
  * Bubble Sort
  * Selection Sort
  * Selection Sort (na listach)
  * Shell Sort
- * Comb Sort
  * Merge Sort (w. iteracyjna)
  * Merge Sort (w. naturalna)
  * Merge Sort (w. naturalna na seriach; na liœcie)
