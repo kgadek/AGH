@@ -151,3 +151,86 @@ void mergesort_mk_int(int *tab, int l, int p) {
     free(b);
 }
 
+void quicksort_h_kg(int *tab, int len) {
+    printf("Quick-Sort(H)::iter by KG\n");
+    quicksort_h_kg_int(tab,0,len-1);
+}
+
+void quicksort_h_kg_int(int *tab, int p, int q) {
+    int i,j;
+    Sinit();
+    Spush(p); Spush(q);
+    while(!Sempty()) {
+	q = Sfront(); Spop();
+	p = Sfront(); Spop();
+	if(p<q) {
+	    quicksort_h_kg_part(tab,p,q,&i,&j);
+	    if(j-p>q-i) {
+		Spush(p); Spush(j);
+		Spush(i); Spush(q);
+	    } else {
+		Spush(i); Spush(q);
+		Spush(p); Spush(j);
+	    }
+	}
+    }
+    Sclear();
+}
+
+void quicksort_h_kg_part(int *tab, int p, int q, int *i, int *j) {
+    int x;
+    x = tab[(p+q)/2];
+    *i = p;
+    *j = q;
+    while((*i)<=(*j)) {
+	while(tab[*i]<x) ++(*i);
+	while(x<tab[*j]) --(*j);
+	if((*i)<=(*j)) {
+	    swap(tab+*i, tab+*j);
+	    ++(*i); --(*j);
+	}
+    }
+}
+
+struct stck* R;
+
+void Sinit(void) {
+    R = NULL;
+}
+
+void Spush(int x) {
+    struct stck* t;
+    t = (struct stck*)malloc(sizeof *t);
+    t->n = R;
+    t->v = x;
+    R = t;
+}
+
+void Spop(void) {
+    struct stck* t;
+    if(!R)
+	return;
+    t = R->n;
+    free(R);
+    R = t;
+}
+
+int Sfront(void) {
+    if(R)
+	return R->v;
+    return 0;
+}
+
+int Sempty(void) {
+    return R==NULL;
+}
+
+void Sclear(void) {
+    struct stck *t;
+    while(R) {
+	t = R->n;
+	free(R);
+	R = t;
+    }
+}
+
