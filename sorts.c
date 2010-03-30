@@ -34,7 +34,7 @@ void combsort_kg(int *tab, int len) {
 	sw = 0;
 	for(i=0; i+gap<len; ++i) {
 	    if(tab[i+gap]<tab[i]) {
-		swap(tab+i+gap,tab+i);
+		swap(&tab[i+gap], &tab[i]);
 		sw = 1;
 	    }
 	}
@@ -63,7 +63,7 @@ void selsort_mk(int *tab, int len) {
 	for(j=i+1; j<len; ++j)
 	    if(tab[j]<tab[min])
 		min = j;
-	swap(tab+i, tab+min);
+	swap(&tab[i], &tab[min]);
     }
 }
 
@@ -73,7 +73,7 @@ void bubblesort_mk(int *tab, int len) {
     for(i=0; i<len; ++i) {
 	for(j=0;j<len-1;++j)
 	    if(tab[j+1]<tab[j])
-		swap(tab+j+1, tab+j);
+		swap(&tab[j+1], &tab[j]);
     }
 }
 
@@ -91,7 +91,7 @@ void quicksort_h_mk_int(int *tab, int l, int p) {
 	while(tab[i]<x) ++i;
 	while(x<tab[j]) --j;
 	if(i<=j) {
-	   swap(tab+i, tab+j);
+	   swap(&tab[i], &tab[j]);
 	   ++i;
 	   --j;
 	}
@@ -128,7 +128,7 @@ void mergesort_mk(int *tab, int len) {
 void mergesort_mk_int(int *tab, int l, int p) {
     int s, i1, i2, i;
     int *b;
-    b = (int*)malloc((p-l+1)*sizeof *b);
+    b = malloc((p-l+1)*sizeof *b);
     if(b==NULL) {
 	fprintf(stderr,"Nie mozna zadeklarowac pamieci.\n");
 	exit(1);
@@ -186,7 +186,7 @@ void quicksort_h_kg_part(int *tab, int p, int q, int *i, int *j) {
 	while(tab[*i]<x) ++(*i);
 	while(x<tab[*j]) --(*j);
 	if((*i)<=(*j)) {
-	    swap(tab+*i, tab+*j);
+	    swap(&tab[*i], &tab[*j]);
 	    ++(*i); --(*j);
 	}
     }
@@ -200,7 +200,7 @@ void Sinit(void) {
 
 void Spush(int x) {
     struct stck* t;
-    t = (struct stck*)malloc(sizeof *t);
+    t = malloc(sizeof *t);
     t->n = R;
     t->v = x;
     R = t;
