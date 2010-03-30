@@ -106,7 +106,7 @@ void shlsort_mk(int *tab, int len) {
     int gaps[] = {1,3,7,15,31,63,127,255,511,1023,2047,4095,8191,16383,32767,65535,131071, 262143, 524287};
     int i, j, gap, x, k;
     printf("Shell-Sort by MK\n");
-    for(i=0; i<19; ++i) {
+    for(i=18; i>=0; --i) {
 	gap = gaps[i];
 	for(j=gap; j<len; ++j) {
 	    x = tab[j];
