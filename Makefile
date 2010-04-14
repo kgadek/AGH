@@ -8,3 +8,7 @@ sort_test.o: sort_test.c
 	$(CC) -c $(LDFLAGS) $(CFLAGS) sort_test.c -o sort_test.o
 sort: sorts.o sort_test.o
 	$(CC) $(CFLAGS) $(LDFLAGS) sorts.o sort_test.o -o sort 
+sort_clean:
+	rm -rf *.o sort
+clean: sort_clean	
+
