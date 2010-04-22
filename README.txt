@@ -51,6 +51,10 @@ TODO:______________________________________________________________________
  * skopiowac programy z innych zrodel (ideone etc)
  * uzupelnic ponizsza liste struktur drzewiastych, ktore trzeba napisac
  * struktury:
+	- lista jedno/dwukierunkowa
+	- stos
+	- kolejka
+	- kopiec
  	- drzewo BST
 	- drzewo Splay
 	- drzewo RB
