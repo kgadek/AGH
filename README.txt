@@ -1,8 +1,10 @@
 Cel projektu/mysl przewodnia:
-	Szesc ECTS-ow dla krola Piotra pod otwartym problemem,
+	Szesc ECTS-ow dla krola Piotra z jego
+       				algorytmicznym problemem,
 	Dwa dla Pawla - wladcy mocy tajemnej tylko
        				Kernighanowi znanej,
-	Osiem w sumie dla nieugietych, w sesji panujacych,
+	Osiem - w sumie - dla nieugietych, w trakcie sesji
+				panujacych,
 	Pietnascie dla Kazdego Studenta
 	Na inzynierskich studiach,
 	W krainie AGH
@@ -14,37 +16,36 @@ Cel projektu/mysl przewodnia:
 	W krainie AGH
 	gdzie zalegna cienie.
 
-...krotko mowiac:
+
+Krotko mowiac:
 	Jest duzo (za duzo?) algorytmow do zaklepania...
 
 System projektu:
-	Glowna galaz "master" do ktorej *absolutnie* nic nie wrzucamy.
-	Oprocz tego galaz "devel" do ktorej wrzucamy wszystko. W
-	razie potrzeby takze jakies galezie pomocnicze (w gicie
-	branchowanie jest latwe/szybkie/przyjemne wiec why not? :) ).
+    ---------------------------------/---------------> master
+                                    /
+                            /------/      devel_freeze_##
+                           /
+    -------\-------^---\--/----------/------/--------> devel
+            \    /      \           /
+             \--/        \........./   jakies galezie tymczasowe
 
-	Co jakis czas (przed kolosem) devel (lub jego czesc) trafia do
-	nowej galezi "devel_freeze", ktora powinna byc dokladnie
-	sprawdzona pod katem bledow i ,,jakosci kodu". Na kilka dni
-	przed kolokwium przetestowana "devel_freeze" staje sie
-	nowa galezia "master".
+	Ewolucja:
+	 * wszystkie commity ida do devel, gdzie nastepuje rozwoj i
+	   testowanie kodu
+	 * gdy kolokwium sie bedzie zblizac, czesc kodu z devel
+	   zostanie skopiowana do nowej galezi devel_freeze_## w ktorej
+	   kod zostanie przetestowany na lewo i prawo oraz ostatecznie
+	   poprawiony
+	 * po nieznalezieniu bledow/mozliwych ulepszen, zawartosc
+	   devel_freeze_## zostaje wrzucona do galezi master
+	 * DO GALEZI MASTER NIGDY NIE WRZUCAMY BEZPOSREDNIO
 
-	Po co? Zeby mozna bylo spokojnie sie zalozyc o pol oceny o
-	poprawnosc kodu z "master" a jednoczenie jakos isc do przodu.
+	Po co tak?
+	 1) bedzie sie mozna zakladac o pol oceny o kod z master
+	 2) szybki rozwoj w devel
+	 3) znajdowanie bledow w devel_freeze przed kolosem
 
 	Super by bylo, jakby taki porzadek sie utrzymal...
-
-O systemie kontroli wersji:...
-	...pisac za duzo nie zamierzam. Kroki sa dwa:
-
-		1) do mnie prosba o dolaczenie do projektu wraz z
-		wygenerowanym kluczem (generowanie: 1min). Jak to
-		zrobic? http://progit.org/book/ch4-3.html
-
-		2) w momencie, gdy trzeba cos zrobic - przegladanie 
-		http://progit.org/book/ . Po paru chwilach wszystko
-		serio staje sie rutynowe :)
-
 
 TODO:______________________________________________________________________
  * skopiowac programy z innych zrodel (ideone etc)
