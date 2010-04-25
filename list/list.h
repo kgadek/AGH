@@ -1,6 +1,5 @@
 #ifndef _LIST_
 #define _LIST_
-#include <cassert>
 #include <iostream>
 using namespace std;
 
