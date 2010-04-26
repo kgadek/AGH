@@ -54,7 +54,6 @@ class list {
 			el* h, *min, *p=NULL, *pmin;
 			
 			while( head ) {
-// 			print();
 				for(min=h=head; h!=NULL; h=h->next)
 					if( h->value < min->value ) min = h;
 					
