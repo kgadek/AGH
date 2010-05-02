@@ -1,5 +1,8 @@
-#ifndef _LIST_
-#define _LIST_
+/* Autor: mmk (at) tux */
+
+#ifndef _MMK_LIST_
+#define _MMK_LIST_
+
 #include <iostream>
 using namespace std;
 
