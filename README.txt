@@ -8,7 +8,7 @@ wiki, które znajduje się pod adresem:
 Repozytorium i jego zawartość są na licencji Creative Commons
         http://creativecommons.org/licenses/by-sa/3.0/pl/
 Umieszczając tutaj kod zgadzasz się, by mógł być wykorzystany w
-celach (głównie) edukacyjnych.
+celach edukacyjnych.
 
 Ponadto studenci, używając kodu zamieszczonego tutaj na
 kolokwiach/egzaminach (przy pomocy dobrej pamięci), są zwolnieni
