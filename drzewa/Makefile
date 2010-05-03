@@ -11,6 +11,9 @@ LDFLAGS			= -O2 -lm
 clean:
 	rm -f dict rb *.o *~
 
+bniemcz_priorityqueue: bniemcz_priorityqueue.c
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_priorityqueue.c -o bniemcz_priorityqueue.o
+
 zig-zag.o: zig-zag.c
 	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
 
