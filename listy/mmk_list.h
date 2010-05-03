@@ -1,4 +1,4 @@
-/* Autor: mmk (at) tux */
+/* Autor: mmk */
 
 #ifndef _MMK_LIST_
 #define _MMK_LIST_
