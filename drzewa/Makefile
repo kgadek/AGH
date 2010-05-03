@@ -9,10 +9,13 @@ LDFLAGS			= -O2 -lm
 .PHONY: clean
 
 clean:
-	rm -f dict rb *.o *~
+	rm -f dict rb bniemcz_trie bniemcz_priorityqueue *.o *~
+
+bniemcz_trie: bniemcz_trie.c
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_trie.c -o bniemcz_trie
 
 bniemcz_priorityqueue: bniemcz_priorityqueue.c
-	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_priorityqueue.c -o bniemcz_priorityqueue.o
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_priorityqueue.c -o bniemcz_priorityqueue
 
 zig-zag.o: zig-zag.c
 	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
