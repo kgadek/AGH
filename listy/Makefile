@@ -5,7 +5,10 @@ CPPFLAGS		=
 LDFLAGS			= -O2 -lm
 
 clean:
-	rm -f midz_skiplist bniemcz_list *.o *~
+	rm -f midz_skiplist bniemcz_list bniemcz_queue *.o *~
+
+bniemcz_queue: bniemcz_queue.c
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_queue.c -o bniemcz_queue
 
 bniemcz_list: bniemcz_list.c
 	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_list.c -o bniemcz_list
