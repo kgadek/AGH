@@ -1,6 +1,6 @@
-#ifndef _TREE_C_
-#define _TREE_C_
-#include "tree.h"
+#ifndef _MMK_AVL_BST_TREE_CPP_
+#define _MMK_AVL_BST_TREE_CPP_
+#include "mmk_avl_bst_tree.h"
 #include <iostream>
 
 template<typename Data> Node<Data>::Node() {

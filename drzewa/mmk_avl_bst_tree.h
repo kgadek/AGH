@@ -1,7 +1,7 @@
 /* Autor: mmk */
 
-#ifndef _TREE_H_
-#define _TREE_H_
+#ifndef _MMK_AVL_BST_TREE_H_
+#define _MMK_AVL_BST_TREE_H_
 #include <iostream>
 
 template<typename Data>
