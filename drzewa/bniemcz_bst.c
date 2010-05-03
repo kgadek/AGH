@@ -157,7 +157,7 @@ void rotation_left(pNode * root, pNode node)
 int main()
 {
 
-    pNode node, root = NULL;
+    pNode node, x, y, root = NULL;
 
     /*
      * testowanie inserta 
@@ -180,9 +180,9 @@ int main()
 
     rotation_left(&root, node);
 
-    pNode x = makeNode(6);
+    x = makeNode(6);
     insertPtrToPtr(&root, x);
-    pNode y = predecessor(x);
+    y = predecessor(x);
 
 
     printf("%d ", y->data);
