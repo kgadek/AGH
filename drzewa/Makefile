@@ -1,0 +1,27 @@
+CC			= gcc
+CXX			= g++
+CPAS			= ppc386
+CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
+CXXFLAGS		= 
+PASFLAGS		= -XS -O2 
+LDFLAGS			= -O2 -lm
+
+.PHONY: clean
+
+clean:
+	rm -f dict rb *.o *~
+
+zig-zag.o: zig-zag.c
+	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
+
+bniemcz_bst: bniemcz_bst.c
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_bst.c -o bniemcz_bst
+
+dict: dict.cpp
+	$(CXX) $(CFLAGS_ANSI) $(LDFLAGS) dict.cpp -o dict
+
+mmk_avl_bst_tree.o: mmk_avl_bst_tree.h mmk_avl_bst_tree.cpp
+	$(CXX) -c mmk_avl_bst_tree.cpp -o mmk_avl_bst_tree.o
+
+rb: rb.pas
+	$(CPAS) $(PASFLAGS) rb.pas
