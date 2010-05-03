@@ -11,6 +11,9 @@ LDFLAGS			= -O2 -lm
 clean:
 	rm -f dict rb *.o *~
 
+zig-zag.o: zig-zag.c
+	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
+
 dict: dict.cpp
 	$(CXX) $(CFLAGS_ANSI) $(LDFLAGS) dict.cpp -o dict
 
