@@ -9,7 +9,7 @@ LDFLAGS			= -O2 -lm
 .PHONY: clean
 
 clean:
-	rm -f dict rb bniemcz_trie bniemcz_priorityqueue *.o *~
+	rm -f mnowak_dict rb bniemcz_trie bniemcz_priorityqueue *.o *~
 
 bniemcz_trie: bniemcz_trie.c
 	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_trie.c -o bniemcz_trie
@@ -17,11 +17,11 @@ bniemcz_trie: bniemcz_trie.c
 bniemcz_priorityqueue: bniemcz_priorityqueue.c
 	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_priorityqueue.c -o bniemcz_priorityqueue
 
-zig-zag.o: zig-zag.c
-	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
+ijurkowski_zig-zag.o: ijurkowski_zig-zag.c
+	$(CC) $(CFLAGS_ANSI) ijurkowski_zig-zag.c -c -o ijurkowski_zig-zag.o
 
-dict: dict.cpp
-	$(CXX) $(CFLAGS_ANSI) $(LDFLAGS) dict.cpp -o dict
+mnowak_dict: mnowak_dict.cpp
+	$(CXX) $(CFLAGS_ANSI) $(LDFLAGS) mnowak_dict.cpp -o mnowak_dict
 
 mmk_avl_bst_tree.o: mmk_avl_bst_tree.h mmk_avl_bst_tree.cpp
 	$(CXX) -c mmk_avl_bst_tree.cpp -o mmk_avl_bst_tree.o
