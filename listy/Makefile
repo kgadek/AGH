@@ -1,4 +1,4 @@
-CC				= gcc
+CC			= gcc
 CCPP			= g++
 CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
 CPPFLAGS		= 
