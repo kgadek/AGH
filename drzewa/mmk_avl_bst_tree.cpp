@@ -47,10 +47,6 @@ template<typename Data> bst<Data>::bst(Data value) {
 	this->root = new Node<Data> (value);
 }
 template<typename Data> void bst<Data>::insert(Data value) {
-	if (this->root == NULL) {
-		this->root = new Node<Data> (value);
-		return;
-	}
 	Node <Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
 }
@@ -245,11 +241,6 @@ template<typename Data> void avl<Data>::plant(Data values[], int size) {
 		insert(values[i]);
 }
 template<typename Data> void avl<Data>::insert(Data value) {
-	// 	std::cout << "avl::insert "<<value<<"\n";
-	if (this->root == NULL) {
-		this->root = new Node<Data> (value);
-		return;
-	}
 	Node<Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
 	insRepair( tmp);
