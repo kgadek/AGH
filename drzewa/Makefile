@@ -9,7 +9,10 @@ LDFLAGS			= -O2 -lm
 .PHONY: clean
 
 clean:
-	rm -f mnowak_dict rb bniemcz_trie bniemcz_priorityqueue *.o *~
+	rm -f mnowak_dict rb bbniemcz_trie rlazarz_trie niemcz_priorityqueue *.o *~
+
+rlazarz_trie: rlazarz_trie.c
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) rlazarz_trie.c -o rlazarz_trie
 
 bniemcz_trie: bniemcz_trie.c
 	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_trie.c -o bniemcz_trie
