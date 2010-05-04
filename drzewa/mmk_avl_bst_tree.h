@@ -6,10 +6,10 @@
 
 template<typename Data>
 struct Node {
-private:
+public:
 	short int bf; //balance factor
 	Data value;
-public:
+
 	Node<Data> *left, *right, *parent;
 	Node();
 	Node(Data val);
@@ -21,6 +21,7 @@ private:
 
 template<typename Data>
 class Tree {
+protected:
 	Node<Data> *root;
 public:
 	Tree();

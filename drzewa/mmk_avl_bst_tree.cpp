@@ -161,7 +161,7 @@ template<typename Data> Node<Data>* bst<Data>::rotate_right(Node<Data>* n) {
 	if (n->left == NULL)
 		return false;
 
-	n->bf = n->bf + (-n->left->bf > 0 ? -n->left->bf : 0) + 1;
+	n->bf = n->bf - (n->left->bf < 0 ? n->left->bf : 0) + 1;
 	n->left->bf = n->left->bf + (n->bf > 0 ? n->bf : 0) + 1;
 
 	Node<Data> *tmp = n->left;
@@ -186,7 +186,7 @@ template<typename Data> Node<Data>* bst<Data>::rotate_left(Node<Data>* n) {
 		return false;
 
 	n->bf = n->bf - (n->right->bf > 0 ? n->right->bf : 0) - 1;
-	n->right->bf = n->right->bf - (-n->bf > 0 ? -n->bf : 0) - 1;
+	n->right->bf = n->right->bf + (n->bf < 0 ? n->bf : 0) - 1;
 
 	Node<Data> *tmp = n->right;
 	tmp->parent = n->parent;
@@ -244,6 +244,10 @@ template<typename Data> void avl<Data>::insert(Data value) {
 	Node<Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
 	insRepair( tmp);
+}
+template<typename Data> void avl<Data>::plant(Data values[], int size) {
+	for (int i = 0; i < size; ++i)
+		insert(values[i]);
 }
 template<typename Data> void avl<Data>::balance(Node<Data>* p) {
 	if (p->bf == 2) {
