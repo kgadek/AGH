@@ -1,7 +1,7 @@
 #ifndef _MMK_AVL_BST_TREE_CPP_
 #define _MMK_AVL_BST_TREE_CPP_
-#include "mmk_avl_bst_tree.h"
 #include <iostream>
+#include "mmk_avl_bst_tree.h"
 
 template<typename Data> Node<Data>::Node() {
 	bf = 0;
@@ -58,10 +58,14 @@ template<typename Data> Node<Data>* bst<Data>::search(Data value) {
 	tmpe = value;
 	s(this->root);
 }
-template<typename Data> bool bst<Data>::del(Data value) {
-	return del(search(value));
+template<typename Data> inline bool bst<Data>::del(Data value) {
+	return delNode(search(value));
 }
-template<typename Data> bool bst<Data>::del(Node<Data>* n) {
+template<typename Data> inline bool bst<Data>::del(Node<Data>* n) {
+	return delNode(n);
+}
+// private
+template<typename Data> inline bool bst<Data>::delNode(Node<Data>* n) {
 	if (n == NULL) return false;
 	Node<Data> *tmp = NULL;
 	if (!n->right)
@@ -86,10 +90,11 @@ template<typename Data> bool bst<Data>::del(Node<Data>* n) {
 	n->value = tmp->value;
 	del( tmp );
 }
-template<typename Data> Node<Data>* bst<Data>::min() {
+// public
+template<typename Data> inline Node<Data>* bst<Data>::min() {
 	return min(this->root);
 }
-template<typename Data> Node<Data>* bst<Data>::max() {
+template<typename Data> inline Node<Data>* bst<Data>::max() {
 	return max(this->root);
 }
 template<typename Data> Node<Data>* bst<Data>::min(Node<Data>* n) {
@@ -100,10 +105,10 @@ template<typename Data> Node<Data>* bst<Data>::max(Node<Data>* n) {
 	while (n->right) n = n->right;
 	return n;
 }
-template<typename Data> Node<Data>* bst<Data>::successor(Data value) {
+template<typename Data> inline Node<Data>* bst<Data>::successor(Data value) {
 	return successor(search(value));
 }
-template<typename Data> Node<Data>* bst<Data>::predecessor(Data value) {
+template<typename Data> inline Node<Data>* bst<Data>::predecessor(Data value) {
 	return predecessor(search(value));
 }
 template<typename Data> Node<Data>* bst<Data>::successor(Node<Data>* n) {
@@ -146,10 +151,10 @@ template<typename Data> Node<Data>* bst<Data>::predecessor(Node<Data>* n) {
 	if (tmp == min(n)) return NULL;
 	return n;
 }
-template<typename Data> Node<Data>* bst<Data>::rotate_right(Data val) {
+template<typename Data> inline Node<Data>* bst<Data>::rotate_right(Data val) {
 	return rotate_right(search(val));
 }
-template<typename Data> Node<Data>* bst<Data>::rotate_left(Data val) {
+template<typename Data> inline Node<Data>* bst<Data>::rotate_left(Data val) {
 	return rotate_left(search(val));
 }
 template<typename Data> Node<Data>* bst<Data>::rotate_right(Node<Data>* n) {
@@ -235,11 +240,6 @@ template<typename Data> avl<Data>::avl() {
 template<typename Data> avl<Data>::avl(Data value) {
 	this->root = new Node<Data> (value);
 }
-template<typename Data> void avl<Data>::plant(Data values[], int size) {
-	// 	std::cout << "avl::plant\n";
-	for (int i = 0; i < size; ++i)
-		insert(values[i]);
-}
 template<typename Data> void avl<Data>::insert(Data value) {
 	Node<Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
@@ -277,31 +277,8 @@ template<typename Data> void avl<Data>::insRepair(Node<Data>* n) {
 			break;
 	}
 }
-// template<typename Data> Node<Data>* avl<Data>::insRepair(Node<Data>* p, Node<Data>* son) {
-// 	if (!p)
-// 		return NULL;
-// 
-// 	if (p->right == son)
-// 		p->bf += 1;
-// 	else if (p->left == son)
-// 		p->bf -= 1;
-// 
-// 	if (p->bf == 2) {
-// 		if (p->right->bf < 0) {
-// 			rotate_right(p->right);
-// 		}
-// 		rotate_left(p);
-// 		return p;
-// 	} else if (p->bf == -2) {
-// 		if (p->left->bf > 0) {
-// 			rotate_left(p->left);
-// 		}
-// 		rotate_right(p);
-// 		return p;
-// 	}
-// 	return insRepair(p->parent, p);
-// }
 template<typename Data> void avl<Data>::delRepair(Node<Data>* n) {
+	if( !n || n->bf==-1 || n->bf==1) return;
 	for (;;) {
 		if (n->bf < -1 || n->bf > 1) {
 			balance(n);
@@ -323,22 +300,15 @@ template<typename Data> void avl<Data>::delRepair(Node<Data>* n) {
 	}
 }
 
-template<typename Data> bool avl<Data>::del(Data value) {
-	Node<Data> *node = search(value);
-	if (!node)
-		return false;
-	Node<Data> *p = delNode(node);
-	// 	if( !p ) return true;
-	if (p != NULL && p->bf != -1 && p->bf != 1)
-		delRepair( p);
+template<typename Data> inline bool avl<Data>::del(Data value) {
+	return del(search(value));
 }
-template<typename Data> bool avl<Data>::del(Node<Data>* node) {
+template<typename Data> inline bool avl<Data>::del(Node<Data>* node) {
 	if (!node)
 		return false;
 	Node<Data> *p = delNode(node);
-	// 	if( !p ) return true;
-	if (p != NULL && p->bf != -1 && p->bf != 1)
-		delRepair( p);
+// // 	if( !p ) return true;
+	delRepair( p );
 }
 template<typename Data> Node<Data>* avl<Data>::delNode(Node<Data>* n) {
 	if (n == NULL) return NULL;

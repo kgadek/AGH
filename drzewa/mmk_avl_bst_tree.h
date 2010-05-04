@@ -6,8 +6,10 @@
 
 template<typename Data>
 struct Node {
+private:
 	short int bf; //balance factor
 	Data value;
+public:
 	Node<Data> *left, *right, *parent;
 	Node();
 	Node(Data val);
@@ -19,13 +21,11 @@ private:
 
 template<typename Data>
 class Tree {
-public:
 	Node<Data> *root;
+public:
 	Tree();
 	Tree(Data value);
 	void print();
-	// 	private:
-
 };
 template<typename Data>
 class bst: public Tree<Data> {
@@ -35,21 +35,22 @@ public:
 	void insert(Data value);
 	void plant(Data values[], int size);
 	Node<Data>* search(Data value);
-	bool del(Data value);
-	bool del(Node<Data>* n);
-	Node<Data>* min();
-	Node<Data>* max();
+	inline bool del(Data value);
+	inline bool del(Node<Data>* n);
+	inline Node<Data>* min();
+	inline Node<Data>* max();
 	static Node<Data>* min(Node<Data>* n);
 	static Node<Data>* max(Node<Data>* n);
-	Node<Data>* successor(Data value);
+	inline Node<Data>* successor(Data value);
+	inline Node<Data>* predecessor(Data value);
 	static Node<Data>* successor(Node<Data>* n);
-	Node<Data>* predecessor(Data value);
 	static Node<Data>* predecessor(Node<Data>* n);
-	Node<Data>* rotate_right(Data val);
-	Node<Data>* rotate_left(Data val);
+	inline Node<Data>* rotate_right(Data val);
+	inline Node<Data>* rotate_left(Data val);
 	Node<Data>* rotate_right(Node<Data>* n);
 	Node<Data>* rotate_left(Node<Data>* n);
 private:
+	bool delNode(Node<Data>* n);
 	Data tmpe;
 	Node<Data>* s(Node<Data>* root);
 protected:
@@ -62,8 +63,8 @@ public:
 	avl(Data value);
 	void plant(Data values[], int size);
 	void insert(Data value);
-	bool del(Data value);
-	bool del(Node<Data>* n);
+	inline bool del(Data value);
+	inline bool del(Node<Data>* n);
 private:
 	Node<Data>* delNode(Node<Data>* n);
 	// 	Node<Data>* insRepair(Node<Data>* p, Node<Data>* son);
