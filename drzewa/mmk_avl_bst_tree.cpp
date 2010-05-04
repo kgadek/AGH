@@ -161,8 +161,8 @@ template<typename Data> Node<Data>* bst<Data>::rotate_right(Node<Data>* n) {
 	if (n->left == NULL)
 		return false;
 
-	n->bf = n->bf - (n->left->bf < 0 ? n->left->bf : 0) + 1;
-	n->left->bf = n->left->bf + (n->bf > 0 ? n->bf : 0) + 1;
+	n->bf += - (n->left->bf < 0 ? n->left->bf : 0) + 1;
+	n->left->bf += (n->bf > 0 ? n->bf : 0) + 1;
 
 	Node<Data> *tmp = n->left;
 	tmp->parent = n->parent;
@@ -185,8 +185,8 @@ template<typename Data> Node<Data>* bst<Data>::rotate_left(Node<Data>* n) {
 	if (n->right == NULL)
 		return false;
 
-	n->bf = n->bf - (n->right->bf > 0 ? n->right->bf : 0) - 1;
-	n->right->bf = n->right->bf + (n->bf < 0 ? n->bf : 0) - 1;
+	n->bf += - (n->right->bf > 0 ? n->right->bf : 0) - 1;
+	n->right->bf += + (n->bf < 0 ? n->bf : 0) - 1;
 
 	Node<Data> *tmp = n->right;
 	tmp->parent = n->parent;
