@@ -3,22 +3,20 @@
 #include <iostream>
 #include "mmk_avl_bst_tree.h"
 
-template<typename Data> Node<Data>::Node() {
-	bf = 0;
+template<typename Data> Node<Data>::Node(const Data& val, const int& vbf) : value(val), bf(vbf) {
 	left = right = parent = NULL;
 }
-template<typename Data> Node<Data>::Node(Data val) {
-	bf = 0;
-	value = val;
+template<typename Data> Node<Data>::~Node() {
+// 	bf = 0;
 	left = right = parent = NULL;
 }
 template<typename Data> void Node<Data>::print() {
 	print(this, 0);
 }
-template<typename Data> void Node<Data>::print(Node<Data>* root) {
+template<typename Data> void Node<Data>::print(const Node<Data>* root) {
 	print(root, 0);
 }
-template<typename Data> void Node<Data>::print(Node<Data>* root, int t) {
+template<typename Data> void Node<Data>::print(const Node<Data>* root, const int& t) {
 	if (root == NULL)
 		return;
 	Node<Data>::print(root->right, t + 1);
@@ -29,43 +27,51 @@ template<typename Data> void Node<Data>::print(Node<Data>* root, int t) {
 }
 
 
-template<typename Data> Tree<Data>::Tree() {
-	root = NULL;
-}
-template<typename Data> Tree<Data>::Tree(Data value) {
-	root = new Node<Data> (value);
-}
+template<typename Data> Tree<Data>::Tree() : root(NULL) {}
+template<typename Data> Tree<Data>::Tree(const Data& value) : root(new Node<Data> (value)) {}
 template<typename Data> void Tree<Data>::print() {
 	Node<Data>::print( root);
 }
+template<typename Data> Tree<Data>::~Tree() {
+	std::cout << "~Tree()\n";
+	cleanup(root);
+}
+template<typename Data> bool Tree<Data>::cleanup(Node<Data>* p) {
+	if(!p) return false;
+	cleanup(p->right);
+	cleanup(p->left);
+// 	std::cout << "cleanup: " <<  p << std::endl;
+	delete(p);
+}
 
 
-template<typename Data> bst<Data>::bst() {
-	this->root = NULL;
+template<typename Data> BST<Data>::BST() {this->root = NULL;}
+template<typename Data> BST<Data>::BST(const Data& value) {
+	this->root = (new Node<Data> (value));
 }
-template<typename Data> bst<Data>::bst(Data value) {
-	this->root = new Node<Data> (value);
+template<typename Data> BST<Data>::~BST() {
+	std::cout << "~BST()\n";
 }
-template<typename Data> void bst<Data>::insert(Data value) {
+template<typename Data> void BST<Data>::insert(const Data& value) {
 	Node <Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
 }
-template<typename Data> void bst<Data>::plant(Data values[], int size) {
+template<typename Data> void BST<Data>::plant(Data values[], const int& size) {
 	for (int i = 0; i < size; ++i)
 		insert(values[i]);
 }
-template<typename Data> Node<Data>* bst<Data>::search(Data value) {
+template<typename Data> Node<Data>* BST<Data>::search(const Data& value) {
 	tmpe = value;
-	s(this->root);
+	return s(this->root);
 }
-template<typename Data> inline bool bst<Data>::del(Data value) {
+template<typename Data> inline bool BST<Data>::del(const Data& value) {
 	return delNode(search(value));
 }
-template<typename Data> inline bool bst<Data>::del(Node<Data>* n) {
+template<typename Data> inline bool BST<Data>::del(Node<Data>* n) {
 	return delNode(n);
 }
 // private
-template<typename Data> inline bool bst<Data>::delNode(Node<Data>* n) {
+template<typename Data> bool BST<Data>::delNode(Node<Data>* n) {
 	if (n == NULL) return false;
 	Node<Data> *tmp = NULL;
 	if (!n->right)
@@ -91,27 +97,27 @@ template<typename Data> inline bool bst<Data>::delNode(Node<Data>* n) {
 	del( tmp );
 }
 // public
-template<typename Data> inline Node<Data>* bst<Data>::min() {
+template<typename Data> inline Node<Data>* BST<Data>::min() {
 	return min(this->root);
 }
-template<typename Data> inline Node<Data>* bst<Data>::max() {
+template<typename Data> inline Node<Data>* BST<Data>::max() {
 	return max(this->root);
 }
-template<typename Data> Node<Data>* bst<Data>::min(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::min(Node<Data>* n) {
 	while (n->left) n = n->left;
 	return n;
 }
-template<typename Data> Node<Data>* bst<Data>::max(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::max(Node<Data>* n) {
 	while (n->right) n = n->right;
 	return n;
 }
-template<typename Data> inline Node<Data>* bst<Data>::successor(Data value) {
+template<typename Data> inline Node<Data>* BST<Data>::successor(const Data& value) {
 	return successor(search(value));
 }
-template<typename Data> inline Node<Data>* bst<Data>::predecessor(Data value) {
+template<typename Data> inline Node<Data>* BST<Data>::predecessor(const Data& value) {
 	return predecessor(search(value));
 }
-template<typename Data> Node<Data>* bst<Data>::successor(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::successor(Node<Data>* n) {
 	Node<Data> *tmp = n;
 	if (n == NULL) return n;
 	if (n->right) {
@@ -131,7 +137,7 @@ template<typename Data> Node<Data>* bst<Data>::successor(Node<Data>* n) {
 	if (tmp == max(n)) return NULL; // ?return tmp?
 	return n;
 }
-template<typename Data> Node<Data>* bst<Data>::predecessor(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::predecessor(Node<Data>* n) {
 	Node<Data> *tmp = n;
 	if (n == NULL) return n;
 	if (n->left) {
@@ -151,13 +157,13 @@ template<typename Data> Node<Data>* bst<Data>::predecessor(Node<Data>* n) {
 	if (tmp == min(n)) return NULL;
 	return n;
 }
-template<typename Data> inline Node<Data>* bst<Data>::rotate_right(Data val) {
+template<typename Data> inline Node<Data>* BST<Data>::rotate_right(const Data& val) {
 	return rotate_right(search(val));
 }
-template<typename Data> inline Node<Data>* bst<Data>::rotate_left(Data val) {
+template<typename Data> inline Node<Data>* BST<Data>::rotate_left(const Data& val) {
 	return rotate_left(search(val));
 }
-template<typename Data> Node<Data>* bst<Data>::rotate_right(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::rotate_right(Node<Data>* n) {
 	if (n->left == NULL)
 		return false;
 
@@ -181,7 +187,7 @@ template<typename Data> Node<Data>* bst<Data>::rotate_right(Node<Data>* n) {
 	n->parent = tmp;
 	return tmp;
 }
-template<typename Data> Node<Data>* bst<Data>::rotate_left(Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::rotate_left(Node<Data>* n) {
 	if (n->right == NULL)
 		return false;
 
@@ -207,7 +213,7 @@ template<typename Data> Node<Data>* bst<Data>::rotate_left(Node<Data>* n) {
 }
 
 // 	private:
-template<typename Data> Node<Data>* bst<Data>::s(Node<Data>* root) {
+template<typename Data> Node<Data>* BST<Data>::s(Node<Data>* root) {
 	if (root == NULL)
 		return NULL;
 	else if (root->value == tmpe) {
@@ -219,7 +225,7 @@ template<typename Data> Node<Data>* bst<Data>::s(Node<Data>* root) {
 		return s(root->left);
 }
 // 	protected:
-template<typename Data> void bst<Data>::ins(Node<Data>** root, Node<Data>* n) {
+template<typename Data> void BST<Data>::ins(Node<Data>** root, Node<Data>* n) {
 	Node<Data> *parent = NULL;
 	while (*root) {
 		parent = *root;
@@ -234,22 +240,22 @@ template<typename Data> void bst<Data>::ins(Node<Data>** root, Node<Data>* n) {
 }
 
 
-template<typename Data> avl<Data>::avl() {
+template<typename Data> AVL<Data>::AVL() {
 	this->root = NULL;
 }
-template<typename Data> avl<Data>::avl(Data value) {
+template<typename Data> AVL<Data>::AVL(const Data& value) {
 	this->root = new Node<Data> (value);
 }
-template<typename Data> void avl<Data>::insert(Data value) {
+template<typename Data> void AVL<Data>::insert(const Data& value) {
 	Node<Data> *tmp = new Node<Data> (value);
 	ins(&(this->root), tmp);
 	insRepair( tmp);
 }
-template<typename Data> void avl<Data>::plant(Data values[], int size) {
+template<typename Data> void AVL<Data>::plant(Data values[], const int& size) {
 	for (int i = 0; i < size; ++i)
 		insert(values[i]);
 }
-template<typename Data> void avl<Data>::balance(Node<Data>* p) {
+template<typename Data> void AVL<Data>::balance(Node<Data>* p) {
 	if (p->bf == 2) {
 		if (p->right->bf < 0) {
 			rotate_right(p->right);
@@ -262,7 +268,7 @@ template<typename Data> void avl<Data>::balance(Node<Data>* p) {
 		rotate_right(p);
 	}
 }
-template<typename Data> void avl<Data>::insRepair(Node<Data>* n) {
+template<typename Data> void AVL<Data>::insRepair(Node<Data>* n) {
 	for (;;) {
 		if (n->bf < -1 || n->bf > 1) {
 			balance(n);
@@ -281,7 +287,7 @@ template<typename Data> void avl<Data>::insRepair(Node<Data>* n) {
 			break;
 	}
 }
-template<typename Data> void avl<Data>::delRepair(Node<Data>* n) {
+template<typename Data> void AVL<Data>::delRepair(Node<Data>* n) {
 	if( !n || n->bf==-1 || n->bf==1) return;
 	for (;;) {
 		if (n->bf < -1 || n->bf > 1) {
@@ -304,17 +310,17 @@ template<typename Data> void avl<Data>::delRepair(Node<Data>* n) {
 	}
 }
 
-template<typename Data> inline bool avl<Data>::del(Data value) {
+template<typename Data> inline bool AVL<Data>::del(const Data& value) {
 	return del(search(value));
 }
-template<typename Data> inline bool avl<Data>::del(Node<Data>* node) {
+template<typename Data> inline bool AVL<Data>::del(Node<Data>* node) {
 	if (!node)
 		return false;
 	Node<Data> *p = delNode(node);
 // // 	if( !p ) return true;
 	delRepair( p );
 }
-template<typename Data> Node<Data>* avl<Data>::delNode(Node<Data>* n) {
+template<typename Data> Node<Data>* AVL<Data>::delNode(Node<Data>* n) {
 	if (n == NULL) return NULL;
 	Node<Data> *result = n->parent;
 	Node<Data> *tmp = NULL;
@@ -344,16 +350,75 @@ template<typename Data> Node<Data>* avl<Data>::delNode(Node<Data>* n) {
 		return delNode( tmp);
 	}
 }
-template<typename Data> std::ostream & operator<<(std::ostream &out,
-		Node<Data>* l) {
+template<typename Data> Splay<Data>::Splay() {
+	this->root = NULL;
+}
+template<typename Data> Splay<Data>::Splay(const Data& data) {
+	this->root = new Node<Data>(data);
+}
+template<typename Data> inline void Splay<Data>::splay(const Data& data) {
+	std::cout<<"splay data: " << data << " \n";
+	Node<Data>* s = find(this->root, data);
+	std::cout << s << "\n";
+	splay(s);
+	std::cout<<"splay root: " << this->root << " \n";
+}
+// wiki
+template<typename Data> inline void Splay<Data>::splay(Node<Data>* node) {
+	Node<Data> *p, *g; // p-parent, g-grandparent
+	if( node==this->root );
+	else if( node->parent == this->root ) {
+		if( node->parent->right == node )
+			rotate_left(this->root);
+		else
+			rotate_right(this->root);
+	} else {
+		p = node->parent;
+		g = p->parent;
+		if( node==p->left && p==g->left ) {
+			rotate_right(g);
+			rotate_right(p);
+		} else if( node==p->right && p==g->right ) {
+			rotate_left(g);
+			rotate_left(p);
+		} else if( node==p->left && p==g->right ) {
+			rotate_right(p);
+			rotate_left(g);
+		} else if( node==p->right && p==g->left ) {
+			rotate_left(p);
+			rotate_right(g);
+		}
+		splay(node);
+	}
+}
+template<typename Data> Node<Data>* Splay<Data>::find(Node<Data>* root, const Data& data) {
+	if (!root)
+		return NULL;
+	else if (root->value == data) {
+		return root;
+	} else if (root->value < data) {
+		if(!root->right) return root;
+		return find(root->right, data);
+	} else {
+		if(!root->left) return root;
+		return find(root->left, data);
+	}
+}
+// template<typename Data> void Splay<Data>::insert(const Data& data) {
+// 	std::cout << "test";
+// }
+// template<typename Data> void Splay<Data>::plant(Data values[], const int& size) {
+// 	for (int i = 0; i < size; ++i)
+// 		insert(values[i]);
+// }
+template<typename Data> std::ostream & operator<<(std::ostream &out, Node<Data>* l) {
 	if (l)
 		out << l->value;
 	else
 		out << "NULL";
 	return out;
 }
-template<typename Data> std::ostream & operator<<(std::ostream &out,
-		Tree<Data>* t) {
+template<typename Data> std::ostream & operator<<(std::ostream &out, Tree<Data>* t) {
 	if (t)
 		t->print();
 	else

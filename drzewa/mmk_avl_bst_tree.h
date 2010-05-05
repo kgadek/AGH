@@ -11,12 +11,12 @@ public:
 	Data value;
 
 	Node<Data> *left, *right, *parent;
-	Node();
-	Node(Data val);
+	Node(const Data& val = NULL, const int& = 0);
+	~Node();
 	void print();
-	static void print(Node<Data>* root);
+	static void print(const Node<Data>* root);
 private:
-	static void print(Node<Data>* root, int t);
+	static void print(const Node<Data>* root, const int& t);
 };
 
 template<typename Data>
@@ -25,29 +25,34 @@ protected:
 	Node<Data> *root;
 public:
 	Tree();
-	Tree(Data value);
+	Tree(const Data& value);
+	~Tree();
+	Node<Data>* getRoot() {return root;}
 	void print();
+protected:
+	bool cleanup(Node<Data>* p);
 };
 template<typename Data>
-class bst: public Tree<Data> {
+class BST: public Tree<Data> {
 public:
-	bst();
-	bst(Data value);
-	void insert(Data value);
-	void plant(Data values[], int size);
-	Node<Data>* search(Data value);
-	inline bool del(Data value);
+	BST();
+	~BST();
+	BST(const Data& value);
+	void insert(const Data& value);
+	void plant(Data values[], const int& size);
+	Node<Data>* search(const Data& value);
+	inline bool del(const Data& value);
 	inline bool del(Node<Data>* n);
 	inline Node<Data>* min();
 	inline Node<Data>* max();
 	static Node<Data>* min(Node<Data>* n);
 	static Node<Data>* max(Node<Data>* n);
-	inline Node<Data>* successor(Data value);
-	inline Node<Data>* predecessor(Data value);
+	inline Node<Data>* successor(const Data& value);
+	inline Node<Data>* predecessor(const Data& value);
 	static Node<Data>* successor(Node<Data>* n);
 	static Node<Data>* predecessor(Node<Data>* n);
-	inline Node<Data>* rotate_right(Data val);
-	inline Node<Data>* rotate_left(Data val);
+	inline Node<Data>* rotate_right(const Data& val);
+	inline Node<Data>* rotate_left(const Data& val);
 	Node<Data>* rotate_right(Node<Data>* n);
 	Node<Data>* rotate_left(Node<Data>* n);
 private:
@@ -58,13 +63,13 @@ protected:
 	void ins(Node<Data>** root, Node<Data>* n);
 };
 template<typename Data>
-class avl: public bst<Data> {
+class AVL: public BST<Data> {
 public:
-	avl();
-	avl(Data value);
-	void plant(Data values[], int size);
-	void insert(Data value);
-	inline bool del(Data value);
+	AVL();
+	AVL(const Data& value);
+	void plant(Data values[], const int& size);
+	void insert(const Data& value);
+	inline bool del(const Data& value);
 	inline bool del(Node<Data>* n);
 private:
 	Node<Data>* delNode(Node<Data>* n);
@@ -73,9 +78,24 @@ private:
 	void delRepair(Node<Data>* p);
 	void balance(Node<Data>* p);
 };
+template<typename Data>
+class Splay: public BST<Data> {
+public:
+	Splay();
+	Splay(const Data& value);
+	
+	inline void splay(const Data& data);
+private:
+	Node<Data>* find(Node<Data>* root, const Data& data);
+	void splay(Node<Data>* p);
+	
+// 	void plant(Data values[], const int& size);
+// 	void insert(const Data& value);
+	
+// 	inline bool del(const Data& value);
+// 	inline bool del(Node<Data>* n);
+};
 
-template<typename Data> std::ostream & operator<<(std::ostream &out,
-		Node<Data>* l);
-template<typename Data> std::ostream & operator<<(std::ostream &out,
-		Tree<Data>* t);
+template<typename Data> std::ostream & operator<<(std::ostream &out, Node<Data>* l);
+template<typename Data> std::ostream & operator<<(std::ostream &out, Tree<Data>* t);
 #endif
