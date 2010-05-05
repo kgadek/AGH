@@ -1,7 +1,8 @@
 #ifndef _MMK_AVL_BST_TREE_CPP_
 #define _MMK_AVL_BST_TREE_CPP_
-#include <iostream>
 #include "mmk_avl_bst_tree.h"
+#include <iostream>
+#include <cassert>
 
 template<typename Data> Node<Data>::Node(const Data& val, const int& vbf) : value(val), bf(vbf) {
 	left = right = parent = NULL;
@@ -225,7 +226,7 @@ template<typename Data> Node<Data>* BST<Data>::s(Node<Data>* root) {
 		return s(root->left);
 }
 // 	protected:
-template<typename Data> void BST<Data>::ins(Node<Data>** root, Node<Data>* n) {
+template<typename Data> Node<Data>* BST<Data>::ins(Node<Data>** root, Node<Data>* n) {
 	Node<Data> *parent = NULL;
 	while (*root) {
 		parent = *root;
@@ -233,10 +234,13 @@ template<typename Data> void BST<Data>::ins(Node<Data>** root, Node<Data>* n) {
 			root = &(*root)->right;
 		else if ((*root)->value != n->value)
 			root = &(*root)->left;
+		else
+			return (*root);
 		// 				co gdy są równe?
 	}
 	n->parent = parent;
 	*root = n;
+	return n;
 }
 
 
@@ -356,14 +360,19 @@ template<typename Data> Splay<Data>::Splay() {
 template<typename Data> Splay<Data>::Splay(const Data& data) {
 	this->root = new Node<Data>(data);
 }
-template<typename Data> inline void Splay<Data>::splay(const Data& data) {
-	std::cout<<"splay data: " << data << " \n";
-	Node<Data>* s = find(this->root, data);
-	std::cout << s << "\n";
-	splay(s);
-	std::cout<<"splay root: " << this->root << " \n";
+template<typename Data> inline bool Splay<Data>::search(const Data& data) {
+	splay(data);
+	if( this->root->value == data )
+		return true;
+	return false;
 }
-// wiki
+template<typename Data> inline void Splay<Data>::splay(const Data& data) {
+// 	std::cout<<"splay data: " << data << " \n";
+	Node<Data>* s = find(this->root, data);
+// 	std::cout << s << "\n";
+	splay(s);
+// 	std::cout<<"splay root: " << this->root << " \n";
+}
 template<typename Data> inline void Splay<Data>::splay(Node<Data>* node) {
 	Node<Data> *p, *g; // p-parent, g-grandparent
 	if( node==this->root );
@@ -404,13 +413,36 @@ template<typename Data> Node<Data>* Splay<Data>::find(Node<Data>* root, const Da
 		return find(root->left, data);
 	}
 }
-// template<typename Data> void Splay<Data>::insert(const Data& data) {
-// 	std::cout << "test";
-// }
-// template<typename Data> void Splay<Data>::plant(Data values[], const int& size) {
-// 	for (int i = 0; i < size; ++i)
-// 		insert(values[i]);
-// }
+template<typename Data> bool Splay<Data>::insert(const Data& data) {
+	Node<Data>* node = new Node<Data>(data), *p;
+	p = ins(&(this->root), node); // ins zwraca node, jeśli udało się wstawić albo element który już był w tablicy
+// 	std::cout << "insert node: " << node << "\n";
+	splay(p);
+	if( p==node ) return true;
+	delete(node); // p!=node
+	return false;
+}
+template<typename Data> bool Splay<Data>::remove(const Data& data) {
+	Node<Data>* f = find(this->root, data);
+	std::cout << f << std::endl;
+	if( !f ) return false;
+	assert(f!=NULL);
+	if( f->value == data ) // czy znaleźliśmy element?
+		return remove(f);
+	splay(f);
+	return false;
+}
+template<typename Data> bool Splay<Data>::remove(Node<Data>* n) { // n musi należeć do drzewa
+	if(!n) return false;
+	Node<Data>* tmp = n->parent; // gdy n==root to tmp==NULL
+	delNode( n ); // delNode ustawi this->root na NULL gdy n==root
+	if(tmp) splay(tmp); // jeśli n==root, tmp==NULL, a więc nie robimy splaya
+	return true;
+}
+template<typename Data> void Splay<Data>::plant(Data values[], const int& size) {
+	for (int i = 0; i < size; ++i)
+		insert(values[i]);
+}
 template<typename Data> std::ostream & operator<<(std::ostream &out, Node<Data>* l) {
 	if (l)
 		out << l->value;

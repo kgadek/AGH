@@ -56,11 +56,11 @@ public:
 	Node<Data>* rotate_right(Node<Data>* n);
 	Node<Data>* rotate_left(Node<Data>* n);
 private:
-	bool delNode(Node<Data>* n);
 	Data tmpe;
 	Node<Data>* s(Node<Data>* root);
 protected:
-	void ins(Node<Data>** root, Node<Data>* n);
+	bool delNode(Node<Data>* n);
+	Node<Data>* ins(Node<Data>** root, Node<Data>* n);
 };
 template<typename Data>
 class AVL: public BST<Data> {
@@ -84,16 +84,18 @@ public:
 	Splay();
 	Splay(const Data& value);
 	
+	bool insert(const Data& value);
+	void plant(Data values[], const int& size);
+	inline bool search(const Data& data);
 	inline void splay(const Data& data);
+
+	inline bool remove(const Data& value);
+	inline bool remove(Node<Data>* n);
 private:
 	Node<Data>* find(Node<Data>* root, const Data& data);
 	void splay(Node<Data>* p);
 	
-// 	void plant(Data values[], const int& size);
-// 	void insert(const Data& value);
 	
-// 	inline bool del(const Data& value);
-// 	inline bool del(Node<Data>* n);
 };
 
 template<typename Data> std::ostream & operator<<(std::ostream &out, Node<Data>* l);
