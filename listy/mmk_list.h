@@ -4,63 +4,63 @@
 #define _MMK_LIST_
 
 #include <iostream>
-using namespace std;
+template<class D> struct Node;
+template<class D> struct Node2;
+template<class D> class List;
+template<class D> class List2;
+template<class D> std::ostream & operator<<(std::ostream&, Node<D>*);
+template<class D> std::ostream & operator<<(std::ostream&, List<D>*);
+template<class D> std::ostream & operator<<(std::ostream&, Node2<D>*);
+template<class D> std::ostream & operator<<(std::ostream&, List2<D>*);
 
-class list {
-	class el {
-		public:
-			el *next;
-			int value;
-			el() {next = NULL;}
-			el(int val) {next = NULL;value=val;}
-		};
+template<class D>
+struct Node {
+	Node<D> *next;
+	D data;
+	Node(const D& d) : data(d),next(NULL) {}
+};
+template<class D>
+class List {
 	public:
-		el* head;
-		list() {head=NULL;}
-		list(int value) {
-			head->value = value;
-			head->next = NULL;
-		}
-		void add(int value) {
-			el* tmp = new el(value);
+		Node<D>* head;
+		List() : head(NULL) {}
+		List(const D& d) : head(new Node<D>(d)) {}
+		void insert(const D& d) {
+			Node<D>* tmp = new Node<D>(d);
 			tmp->next = head;
 			head = tmp;
 		}
 		void print() {
-			el* h = head;
-			for(; h; h=h->next) {
-				cout << h->value << " ";
-			}
-			cout << "\n";
+			std::cout << this;
 		}
 		void insertionsort() {
-			el* sorted = new el;
+			Node<D>* sorted = new Node<D>;
 			while( head ) {
-				el* next = head->next;
+				Node<D>* next = head->next;
 				insert(&sorted, head);
 				head = next;
 			}
 			head = sorted;
 		}
-		void d(el** p) {
+		void remove(Node<D>** p) {
 			if(*p==NULL) return;
 			if(*p==head) {
 				head=head->next;
 			} else {
-				el* h;
+				Node<D>* h;
 				for(h=head; h->next!=NULL && h->next!=*p; h=h->next);
 				if(h->next) h->next = h->next->next;
 			}
 		}
 		void selectionsort() {
-			el* sorted = NULL;
-			el* h, *min, *p=NULL, *pmin;
+			Node<D>* sorted = NULL;
+			Node<D>* h, *min, *p=NULL, *pmin;
 			
 			while( head ) {
 				for(min=h=head; h!=NULL; h=h->next)
-					if( h->value < min->value ) min = h;
+					if( h->data < min->data ) min = h;
 					
-				d(&min);
+				remove(&min);
 				
 				if(sorted!=NULL) sorted->next = min;
 				else p=min;
@@ -70,46 +70,36 @@ class list {
 			head = p;
 		}
 	private:
-		void insert(el** head, el* node) {
-			while(*head && (*head)->value < node->value) head = & (*head)->next;
+		void insert(Node<D>** head, Node<D>* node) {
+			while(*head && (*head)->data < node->data) head = & (*head)->next;
 			node->next = *head;
 			*head = node;
 		}
 };
 
 
-class list2 {
-	class lel {
-		public:
-		lel *next;
-		lel *prev;
-		int value;
-		lel() {next=prev=NULL;}
-		lel(int val) {next=prev=NULL;value=val;}
-	};
+template<class D>
+struct Node2 {
+	Node2<D> *next,*prev;
+	D data;
+	Node2() : next(NULL),prev(NULL) {}
+	Node2(const D& d) : data(d),next(NULL),prev(NULL) {}
+};
+template<class D>
+class List2 {
 public:
-	lel *tail;
-	lel *head;
-	list2() {
-		tail = head = NULL;
-	}
-	list2(int val) {
-		head = new lel;
-		head->value = val;
-		head->next = head->prev = NULL;
+	Node2<D> *tail, *head;
+	List2() : head(NULL),tail(NULL) {}
+	List2(const D& d) {
+		head = new Node2<D>(d);
 		tail = head;
 	}
 	void print() {
-		for(lel *k=head;k!=NULL;k=k->next) {
-			std::cout << k->value << ' ';
-		}
-		std::cout << ' ' << std::endl;
+		std::cout << this;
 	}
-	void insert(int val) {
-		lel *tmp = new lel;
-		tmp->value = val;
+	void insert(const D& d) {
+		Node2<D> *tmp = new Node2<D>(d);
 		tmp->next = head;
-		tmp->prev = NULL;
 		if(empty()) {
 			tail = tmp;
 		} else {
@@ -117,7 +107,7 @@ public:
 		}
 		head = tmp;
 	}
-	bool del(lel *p) {
+	bool remove(Node2<D> *p) {
 		if(p==NULL) {
 			std::cout << "ERROR: element is not on the list!" << std::endl;
 			return -1;
@@ -144,9 +134,9 @@ public:
 		}
 		return -1;
 	}
-	lel* search(int val) {
-		for(lel *k=head;k!=NULL;k=k->next) {
-			if(k->value==val)
+	Node2<D>* search(int val) {
+		for(Node2<D> *k=head;k!=NULL;k=k->next) {
+			if(k->data==val)
 				return k;
 		}
 		return NULL;
@@ -161,18 +151,19 @@ public:
 	}
 	int length() {
 		int i=0;
-		lel* h = head;
+		Node2<D>* h = head;
 		for(; h!=NULL; h=h->next) i++;
 		return i;
 	}
 	void selectionsort() {
-		lel* min;
-		lel* sorted = new lel; sorted->prev = sorted->next = NULL; sorted->value=-1;
-		lel* k = sorted;
+		Node2<D>* min;
+		Node2<D>* sorted = new Node2<D>();
+		
+		Node2<D>* k = sorted;
 		while( head!=NULL ) {
 			min = head;
-			for(lel* h = head; h!=NULL; h=h->next)
-				if( h->value < min->value ) min = h;
+			for(Node2<D>* h = head; h!=NULL; h=h->next)
+				if( h->data < min->data ) min = h;
 
 			if( min->next != NULL )
 				min->next->prev = min->prev;
@@ -186,21 +177,23 @@ public:
 			k = min;
 		}
 		head = sorted->next;
-		sorted->next = NULL; delete(sorted); sorted=NULL;
+		sorted->next = NULL;
+		delete(sorted);
+		sorted=NULL;
 	}
-	void insert(lel** head, int val) {
-		while( *head && (*head)->value<=val ) head = &(*head)->next;
-		lel* el = new lel(val);
-		el->next = *head;
-		if(*head) el->prev = (*head)->prev;
-		else el->prev = NULL; 
-		*head = el;
+	void insert(Node2<D>** head, int val) {
+		while( *head && (*head)->data<=val ) head = &(*head)->next;
+		Node2<D>* node = new Node2<D>(val);
+		node->next = *head;
+		if(*head) node->prev = (*head)->prev;
+		else node->prev = NULL; 
+		*head = node;
 	}
 	void insertionsort() {
-		lel* k = new lel(-1);
-		lel* sorted = k;
+		Node2<D>* k = new Node2<D>(-1);
+		Node2<D>* sorted = k;
 		while( head ) {
-			insert(&(sorted->next), head->value);
+			insert(&(sorted->next), head->data);
 			head->prev = k;
 			head = head->next;
 		}
@@ -208,27 +201,21 @@ public:
 		delete(sorted);
 	}
 private:
-	void printme(lel *h) {
-		for(lel *k=h;k!=NULL;k=k->next) {
-			std::cout << k->value << ' ';
-		}
-// 		std::cout << ' ' << std::endl;
-	}
-	int length(lel *h) {
+	int length(Node2<D> *h) {
 		int i=0;
 		for(; h!=NULL; h=h->next) i++;
 		return i;
 	}
-	void merge(lel** p1, lel** p2) {
+	void merge(Node2<D>** p1, Node2<D>** p2) {
 		if( *p2 == NULL ) return;
-		lel* guard = new lel;
-		guard->value = -1;
+		Node2<D>* guard = new Node2<D>;
+		guard->data = -1;
 		guard->prev = NULL; guard->next = NULL;
-		lel* tmp;
-		lel* k = guard;
-		lel** p;
+		Node2<D>* tmp;
+		Node2<D>* k = guard;
+		Node2<D>** p;
 		while( *p1 && *p2 ) {
-			if( (*p1)->value < (*p2)->value ) p = p1;
+			if( (*p1)->data < (*p2)->data ) p = p1;
 			else p = p2;
 			tmp = (*p)->next;
 			(*p)->prev = k;
@@ -246,11 +233,11 @@ private:
 		delete(guard);
 		
 	}
-	void msort(lel** h) {
+	void msort(Node2<D>** h) {
 		int size = length(*h)/2;
 		if( size == 0 ) return;
-		lel* p2 = *h;
-		lel* p1 = p2;
+		Node2<D>* p2 = *h;
+		Node2<D>* p1 = p2;
 		for(int i = 0; i < size; ++i) p2 = p2->next;
 		p2->prev->next = NULL;
 		p2->prev = NULL;
@@ -260,4 +247,33 @@ private:
 		*h = p1;
 	}
 };
+
+template<typename D> std::ostream & operator<<(std::ostream &out, Node<D>* l) {
+	if (l)
+		out << l->data;
+	else
+		out << "NULL";
+	return out;
+}
+template<typename D> std::ostream & operator<<(std::ostream &out, Node2<D>* l) {
+	if (l)
+		out << l->data;
+	else
+		out << "NULL";
+	return out;
+}
+template<typename D> std::ostream & operator<<(std::ostream &out, List<D>* t) {
+	Node<D>* h = t->head;
+	for(; h; h=h->next) out << h << " -> ";
+	out << "NULL";
+	out << "\n";
+	return out;
+}
+template<typename D> std::ostream & operator<<(std::ostream &out, List2<D>* t) {
+	Node2<D>* h = t->head;
+	for(; h; h=h->next) out << h << " -> ";
+	out << "NULL";
+	out << "\n";
+	return out;
+}
 #endif
