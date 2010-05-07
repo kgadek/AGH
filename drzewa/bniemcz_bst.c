@@ -10,7 +10,7 @@ struct Node {
 
 pNode makeNode(int val)
 {
-    pNode node = (pNode) malloc(sizeof(pNode));
+    pNode node = (pNode) malloc(sizeof(struct Node));
     node->data = val;
     node->left = node->right = NULL;
     return node;
@@ -185,7 +185,7 @@ int main()
     y = predecessor(x);
 
 
-    printf("%d ", y->data);
+    printf("%d\n", y->data);
 
     return 0;
 }
