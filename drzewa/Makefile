@@ -9,7 +9,7 @@ LDFLAGS			= -O2 -lm
 .PHONY: clean
 
 clean:
-	rm -f dict rb *.o *~
+	rm -f dict rb bniemcz_bst *.o *~
 
 zig-zag.o: zig-zag.c
 	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
