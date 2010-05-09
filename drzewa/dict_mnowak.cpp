@@ -86,5 +86,4 @@ int main()
     cout << "Sprawdzam \"lol2\" : " << trie_Search("lol2") << endl;
     cout << "Usuwam \"lo\" (nie ma takiego) : " << endl;
     trie_Del("lo");
-    system("pause");
 }

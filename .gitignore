@@ -2,3 +2,5 @@
 *.swp
 *.swo
 *~
+*tar*
+drzewa/CPPUNIT

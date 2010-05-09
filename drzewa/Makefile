@@ -1,27 +1,53 @@
+# Kompilator C, C++ i Pascala
 CC			= gcc
 CXX			= g++
 CPAS			= ppc386
-CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow -Wcast-qual -Wwrite-strings
-CXXFLAGS		= 
-PASFLAGS		= -XS -O2 
+# Opcje kompilacji C ANSI pedantic, C++ i Pascala
+CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
+			  -Wcast-qual -Wwrite-strings
+CXXFLAGS		= -Wall -lcppunit
+PASFLAGS		= -XS -O2
+# Flagi linkera
 LDFLAGS			= -O2 -lm
+# Pliki wynikowe (tylko zlinkowane)
+OUTFILES		= bst_bniemcz dict_mnowak rb_kgadek trie_bniemcz\
+			  trie_rlazarz priorityqueue_bniemcz testy
+# Lista rzeczy do zrobienia po wydaniu komendy `make all`
+ALLOBJ			= testy avl_bst_splay_tree_mmk.cpp.o bst_bniemcz\
+			  dict_mnowak priorityqueue_bniemcz rb_kgadek.cpp.o\
+			  rb_kgadek_pas splay_ijurkowski.c.o trie_bniemcz\
+			  trie_rlazarz
+# CppUnit: lista modulow testerki
+TESTOBJ			= test_avl.o
 
+# Regula clean
 .PHONY: clean
-
 clean:
-	rm -f dict rb bniemcz_bst *.o *~
+	rm -f $(OUTFILES) *.o *~
+# Regula all
+.PHONY: all
+all: $(ALLOBJ)
 
-zig-zag.o: zig-zag.c
-	$(CC) $(CFLAGS_ANSI) zig-zag.c -c -o zig-zag.o
 
-bniemcz_bst: bniemcz_bst.c
-	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) bniemcz_bst.c -o bniemcz_bst
+################################################################################
+#  Testerka (CppUnit)                                                          #
+################################################################################
+testy: testy.cpp.o test_avl.o
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) testy.cpp $(TESTOBJ) -o testy
+	./testy
+test_avl.o: test_avl.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $? -o $@
+################################################################################
+#  Reguly ogolne                                                               #
+################################################################################
+%.c.o:
+	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) -c $? -o $@
+%.cpp.o:
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $? -o $@
 
-dict: dict.cpp
-	$(CXX) $(CFLAGS_ANSI) $(LDFLAGS) dict.cpp -o dict
+################################################################################
+#  Obiekty wymagajace specjalnych regul                                        #
+################################################################################
+rb_kgadek_pas: rb_kgadek.pas
+	$(CPAS) $(PASFLAGS) $?
 
-mmk_avl_bst_tree.o: mmk_avl_bst_tree.h mmk_avl_bst_tree.cpp
-	$(CXX) -c mmk_avl_bst_tree.cpp -o mmk_avl_bst_tree.o
-
-rb: rb.pas
-	$(CPAS) $(PASFLAGS) rb.pas
