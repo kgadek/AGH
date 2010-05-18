@@ -11,20 +11,31 @@ public:
 };
 
 namespace print_tree {
-	char sym = 'o';
-	int a=1, b=0;
-	void print(node *x, int h) {
+	int a=1, b=0, c=5;
+	void _print(node *x, int h) {
 		if(h<=0) return;
 		if(x==NULL) {
 			for(h=(1<<(h-1))-1;h>=0;--h)
 				putchar('\n');
 			return;
 		}
-		int i=a*(2*h-1)+2*b;
-		print(x->left,h-1);
+		int i=a*(c*(h-1))+b+1;
+		_print(x->left,h-1);
 		while(--i>0) putchar(' ');
-		printf("%c[;%dm%c%c[%dm\n",0x1B,31-x->color,sym,0x1B,0);
-		print(x->right,h-1);
+		printf("%c[;%dm(%3d)%c[%dm\n",
+				0x1B,31-x->color,x->value,
+				0x1B,0);
+		_print(x->right,h-1);
+	}
+	void print_rev(node *x, int h) {
+		a=1;
+		_print(x,h);
+	}
+	void print_norm(node *x, int h) {
+		a=-1;
+		b+=(h-1)*c;
+		_print(x,h);
+		b-=(h-1)*c;
 	}
 };
 
@@ -37,7 +48,9 @@ int main() {
 	R->left->right->left = new node(5,0);
 	R->left->right->right = new node(8,0);
 	R->right->right = new node(15,0);
-	print_tree::print(R,4);
+	print_tree::print_norm(R,4);
+	/*dbg*/printf("____________________________________________________\n");
+	print_tree::print_rev(R,4);
 	return 0;
 }
 
