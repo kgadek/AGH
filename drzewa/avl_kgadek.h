@@ -1,5 +1,5 @@
-#ifndef __AVL_H
-#define __AVL_H
+#ifndef __AVL_KGADEK_H
+#define __AVL_KGADEK_H
 
 struct _avlNode {
 	int key;			/* klucz w węźle */

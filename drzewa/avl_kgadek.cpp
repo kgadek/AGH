@@ -1,5 +1,5 @@
-#ifndef __AVL
-#define __AVL
+#ifndef __AVL_KGADEK
+#define __AVL_KGADEK
 
 #include "avl_kgadek.h"
 #include "common_kgadek.h"

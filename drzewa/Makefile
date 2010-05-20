@@ -8,39 +8,35 @@ CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
 CXXFLAGS		= -Wall
 PASFLAGS		= -XS -O2
 # Flagi linkera
-#LDFLAGS			= -O2 -lm -lcppunit
-LDFLAGS		= -O2 -lm	# wersja dla nieposiadajacych CppUnit
-# Pliki wynikowe (tylko zlinkowane)
-OUTFILES		= bst_bniemcz dict_mnowak rb_kgadek trie_bniemcz\
-			  trie_rlazarz priorityqueue_bniemcz tests\
-			  rb_prettyprint testerka
+LDFLAGS			= -O2 -lm
 # Lista rzeczy do zrobienia po wydaniu komendy `make all`
-ALLOBJ			= testy avl_bst_splay_tree_mmk.cpp.o bst_bniemcz\
+ALLOBJ			= avl_bst_splay_tree_mmk.cpp.o bst_bniemcz\
 			  dict_mnowak priorityqueue_bniemcz rb_kgadek.cpp.o\
 			  rb_kgadek_pas splay_ijurkowski.c.o trie_bniemcz\
-			  trie_rlazarz rb_prettyprint testerka\
-			  testy/avl_kgadek_tc1.cpp.o
+			  trie_rlazarz rb_prettyprint avl_kgadek.cpp.o testerka
 # CppUnit: lista modulow testerki
-TESTOBJ			= test_avl.cpp.o
+TESTOBJ			= avl_bst_splay_tree_mmk.cpp.o\
+			  testy/avl_mmk_tc1.cpp.o\
+			  common_kgadek.cpp.o avl_kgadek.cpp.o\
+			  testy/avl_kgadek_tc1.cpp.o
 
 # Regula clean
 .PHONY: clean
 clean:
-	rm -f $(OUTFILES) *.o *~ testy/*.o testy/*.~
+	rm -f *.o *~ testy/*.o testy/*.~
+	find . -mount -perm -111 -and -type f -exec rm {} \;
+	find . -mount -name '*.o' -and -type f -exec rm {} \;
+
 # Regula all
 .PHONY: all
 all: $(ALLOBJ)
 
 
 ################################################################################
-#  Testerki dwie (CppUnit)                                                     #
+#  Tester (CppUnit)                                                            #
 ################################################################################
-testerka: avl_kgadek.cpp.o common_kgadek.cpp.o testy/avl_kgadek_tc1.cpp.o\
-		testerka.cpp
+testerka: testerka.cpp $(TESTOBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit $? -o $@
-tests: tests.cpp.o test_avl.cpp.o
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit testy.cpp $(TESTOBJ) -o testy
-	./testy
 ################################################################################
 #  Reguly ogolne                                                               #
 ################################################################################

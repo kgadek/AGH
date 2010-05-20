@@ -1,9 +1,5 @@
 /* Dosc skomplikowany test, kompilacja trwa ok. 18sek! */
 
-#ifndef __AVL_TESTCASE1
-#define __AVL_TESTCASE1
-
-
 #include <cstdio>
 #include "../avl_kgadek.h"
 #include "../common_kgadek.h"
@@ -244,4 +240,3 @@ void avl_testCase1::testD() {		/* test usuwania drzewa */
 
 CPPUNIT_TEST_SUITE_REGISTRATION( avl_testCase1 );
 
-#endif
