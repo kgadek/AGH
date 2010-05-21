@@ -1,8 +1,10 @@
 #ifndef _MMK_AVL_BST_TREE_CPP_
 #define _MMK_AVL_BST_TREE_CPP_
+
 #include "avl_bst_splay_tree_mmk.h"
+
 #include <iostream>
-//#include <cassert>
+// #include <cassert>
 
 #define DEBUG 0
 
@@ -10,19 +12,20 @@ namespace mmk {
 
     template < typename Data > Node < Data >::Node(const Data & val, const int
 						   &vbf):value(val),
-	bf(vbf) {
-	left = right = parent = NULL;
+	bf(vbf), left(NULL), right(NULL), parent(NULL) {
     } template < typename Data > Node < Data >::~Node() {
-	//      bf = 0;
+	// bf = 0;
 	left = right = parent = NULL;
     }
     template < typename Data > void Node < Data >::print() {
 	print(this, 0);
     }
-    template < typename Data > void Node < Data >::print(const Node < 						 Data > *root) {
+    template < typename Data > void Node < Data >::print(const Node <
+							 Data > *root) {
 	print(root, 0);
     }
-    template < typename Data > void Node < Data >::print(const Node < 						 Data > *root,
+    template < typename Data > void Node < Data >::print(const Node <
+							 Data > *root,
 							 const int &t) {
 	if (root == NULL)
 	    return;
@@ -37,11 +40,14 @@ namespace mmk {
 	std::cout.unsetf(std::ios::showpos);
 	Node < Data >::print(root->left, t + 1);
     }
+    template < typename Data > Node<Data>& Node < Data >::operator=(const Node &x) {return &this;}
+    template < typename Data > Node < Data >::Node(const Node &x) {}
 
   template < typename Data > Tree < Data >::Tree():
     root(NULL) {
     }
-    template < typename Data > Tree < Data >::Tree(const Data & value):root(new Node < Data > (value)) {
+    template < typename Data > Tree <
+	Data >::Tree(const Data & value):root(new Node < Data > (value)) {
     }
     template < typename Data > void Tree < Data >::print() {
 	Node < Data >::print(root);
@@ -64,8 +70,10 @@ namespace mmk {
 	delete(p);
 	return true;
     }
+    template < typename Data > Tree < Data >::Tree(const Tree&) {}
+    template < typename Data > Tree<Data>& Tree < Data >::operator=(const Tree &x) { return &this; }
 
-    template < typename Data > BST < Data >::BST() {
+  template < typename Data > BST < Data >::BST():tmpe(0) {
 	this->root = NULL;
     }
     template < typename Data > BST < Data >::BST(const Data & value) {
@@ -76,7 +84,8 @@ namespace mmk {
 	std::cout << "~BST()\n";
 #endif
     }
-    template < typename Data > void BST < Data >::insert(const Data & value) {
+    template < typename Data > void BST <
+	Data >::insert(const Data & value) {
 	Node < Data > *tmp = new Node < Data > (value);
 	ins(&(this->root), tmp);
     }
@@ -85,11 +94,13 @@ namespace mmk {
 	for (int i = 0; i < size; ++i)
 	    insert(values[i]);
     }
-    template < typename Data > Node < Data > *BST < Data >::search(const Data & value) {
+    template < typename Data > Node < Data > *BST <
+	Data >::search(const Data & value) {
 	tmpe = value;
 	return s(this->root);
     }
-    template < typename Data > inline bool BST < Data >::del(const Data & value) {
+    template < typename Data > inline bool BST <
+	Data >::del(const Data & value) {
 	return delNode(search(value));
     }
     template < typename Data > inline bool BST < Data >::del(Node < Data >
@@ -130,25 +141,30 @@ namespace mmk {
     template < typename Data > inline Node < Data > *BST < Data >::max() {
 	return max(this->root);
     }
-    template < typename Data > Node < Data > *BST < Data >::min(Node < 							Data > *n)
-    {
+    template < typename Data > Node < Data > *BST < Data >::min(Node <
+								Data >
+								*n) {
 	while (n->left)
 	    n = n->left;
 	return n;
     }
-    template < typename Data > Node < Data > *BST < Data >::max(Node < 							Data > *n)
-    {
+    template < typename Data > Node < Data > *BST < Data >::max(Node <
+								Data >
+								*n) {
 	while (n->right)
 	    n = n->right;
 	return n;
     }
-    template < typename Data > inline Node < Data > *BST < Data >::successor(const Data & value) {
+    template < typename Data > inline Node < Data > *BST <
+	Data >::successor(const Data & value) {
 	return successor(search(value));
     }
-    template < typename Data > inline Node < Data > *BST < Data >::predecessor(const Data & value) {
+    template < typename Data > inline Node < Data > *BST <
+	Data >::predecessor(const Data & value) {
 	return predecessor(search(value));
     }
-    template < typename Data > Node < Data > *BST < Data >::successor(Node < Data > *n) {
+    template < typename Data > Node < Data > *BST <
+	Data >::successor(Node < Data > *n) {
 	Node < Data > *tmp = n;
 	if (n == NULL)
 	    return n;
@@ -170,7 +186,8 @@ namespace mmk {
 	    return NULL;	// ?return tmp?
 	return n;
     }
-    template < typename Data > Node < Data > *BST < Data >::predecessor(Node < Data > *n) {
+    template < typename Data > Node < Data > *BST <
+	Data >::predecessor(Node < Data > *n) {
 	Node < Data > *tmp = n;
 	if (n == NULL)
 	    return n;
@@ -192,13 +209,16 @@ namespace mmk {
 	    return NULL;
 	return n;
     }
-    template < typename Data > inline Node < Data > *BST < Data >::rotate_right(const Data & val) {
+    template < typename Data > inline Node < Data > *BST <
+	Data >::rotate_right(const Data & val) {
 	return rotate_right(search(val));
     }
-    template < typename Data > inline Node < Data > *BST < Data >::rotate_left(const Data & val) {
+    template < typename Data > inline Node < Data > *BST <
+	Data >::rotate_left(const Data & val) {
 	return rotate_left(search(val));
     }
-    template < typename Data > Node < Data > *BST < Data >::rotate_right(Node < Data > *n) {
+    template < typename Data > Node < Data > *BST <
+	Data >::rotate_right(Node < Data > *n) {
 	if (n->left == NULL)
 	    return false;
 
@@ -223,7 +243,8 @@ namespace mmk {
 	n->parent = tmp;
 	return tmp;
     }
-    template < typename Data > Node < Data > *BST < Data >::rotate_left(Node < Data > *n) {
+    template < typename Data > Node < Data > *BST <
+	Data >::rotate_left(Node < Data > *n) {
 	if (n->right == NULL)
 	    return false;
 
@@ -249,39 +270,41 @@ namespace mmk {
 	return tmp;
     }
 
-    //      private:
+    // private:
     template < typename Data > Node < Data > *BST < Data >::s(Node < Data >
-							      *root) {
-	if (root == NULL)
+							      *localRoot) {
+	if (localRoot == NULL)
 	    return NULL;
-	else if (root->value == tmpe) {
+	else if (localRoot->value == tmpe) {
 #if DEBUG
-	    std::cout << "found:\t" << root->value << std::endl;
+	    std::cout << "found:\t" << localRoot->value << std::endl;
 #endif
-	    return root;
-	} else if (root->value < tmpe)
-	    return s(root->right);
+	    return localRoot;
+	} else if (localRoot->value < tmpe)
+	    return s(localRoot->right);
 	else
-	    return s(root->left);
+	    return s(localRoot->left);
     }
-    //      protected:
-    template < typename Data > Node < Data > *BST < Data >::ins(Node < 							Data >
-								**root,
-								Node < 							Data > *n)
-    {
+    // protected:
+    template < typename Data > Node < Data > *BST < Data >::ins(Node <
+								Data >
+								**localRoot,
+								Node <
+								Data >
+								*n) {
 	Node < Data > *parent = NULL;
-	while (*root) {
-	    parent = *root;
-	    if ((*root)->value < n->value)
-		root = &(*root)->right;
-	    else if ((*root)->value != n->value)
-		root = &(*root)->left;
+	while (*localRoot) {
+	    parent = *localRoot;
+	    if ((*localRoot)->value < n->value)
+		localRoot = &(*localRoot)->right;
+	    else if ((*localRoot)->value != n->value)
+		localRoot = &(*localRoot)->left;
 	    else
-		return (*root);
-	    //                              co gdy są równe?
+		return (*localRoot);
+	    // co gdy są równe?
 	}
 	n->parent = parent;
-	*root = n;
+	*localRoot = n;
 	return n;
     }
 
@@ -291,7 +314,8 @@ namespace mmk {
     template < typename Data > AVL < Data >::AVL(const Data & value) {
 	this->root = new Node < Data > (value);
     }
-    template < typename Data > void AVL < Data >::insert(const Data & value) {
+    template < typename Data > void AVL <
+	Data >::insert(const Data & value) {
 	Node < Data > *tmp = new Node < Data > (value);
 	ins(&(this->root), tmp);
 	insRepair(tmp);
@@ -330,7 +354,7 @@ namespace mmk {
 		if (n->bf == 0)
 		    break;
 	    } else
-		//root
+		// root
 		break;
 	}
     }
@@ -354,12 +378,13 @@ namespace mmk {
 		if (n->bf == -1 || n->bf == 1)
 		    break;
 	    } else
-		//root
+		// root
 		break;
 	}
     }
 
-    template < typename Data > inline bool AVL < Data >::del(const Data & value) {
+    template < typename Data > inline bool AVL <
+	Data >::del(const Data & value) {
 	return del(search(value));
     }
     template < typename Data > inline bool AVL < Data >::del(Node < Data >
@@ -367,10 +392,11 @@ namespace mmk {
 	if (!node)
 	    return false;
 	Node < Data > *p = delNode(node);
-	// //   if( !p ) return true;
+	// // if( !p ) return true;
 	delRepair(p);
     }
-    template < typename Data > Node < Data > *AVL < Data >::delNode(Node < 							    Data >
+    template < typename Data > Node < Data > *AVL < Data >::delNode(Node <
+								    Data >
 								    *n) {
 	if (n == NULL)
 	    return NULL;
@@ -409,13 +435,15 @@ namespace mmk {
     template < typename Data > Splay < Data >::Splay(const Data & data) {
 	this->root = new Node < Data > (data);
     }
-    template < typename Data > inline bool Splay < Data >::search(const Data & data) {
+    template < typename Data > inline bool Splay <
+	Data >::search(const Data & data) {
 	splay(data);
 	if (this->root->value == data)
 	    return true;
 	return false;
     }
-    template < typename Data > inline void Splay < Data >::splay(const Data & data) {
+    template < typename Data > inline void Splay <
+	Data >::splay(const Data & data) {
 #if DEBUG
 	std::cout << "splay data: " << data << " \n";
 #endif
@@ -428,7 +456,8 @@ namespace mmk {
 	std::cout << "splay root: " << this->root << " \n";
 #endif
     }
-    template < typename Data > inline void Splay < Data >::splay(Node < 							 Data >
+    template < typename Data > inline void Splay < Data >::splay(Node <
+								 Data >
 								 *node) {
 	Node < Data > *p, *g;	// p-parent, g-grandparent
 	if (node == this->root);
@@ -456,7 +485,8 @@ namespace mmk {
 	    splay(node);
 	}
     }
-    template < typename Data > Node < Data > *Splay < Data >::find(Node < 							   Data >
+    template < typename Data > Node < Data > *Splay < Data >::find(Node <
+								   Data >
 								   *root,
 								   const
 								   Data &
@@ -475,9 +505,12 @@ namespace mmk {
 	    return find(root->left, data);
 	}
     }
-    template < typename Data > bool Splay < Data >::insert(const Data & data) {
+    template < typename Data > bool Splay <
+	Data >::insert(const Data & data) {
 	Node < Data > *node = new Node < Data > (data), *p;
-	p = ins(&(this->root), node);	// ins zwraca node, jeśli udało się wstawić albo element który już był w tablicy
+	p = ins(&(this->root), node);	// ins zwraca node, jeśli udało
+	// się wstawić albo element
+	// który już był w tablicy
 #if DEBUG
 	std::cout << "insert node: " << node << "\n";
 #endif
@@ -487,12 +520,13 @@ namespace mmk {
 	delete(node);		// p!=node
 	return false;
     }
-    template < typename Data > bool Splay < Data >::remove(const Data & data) {
+    template < typename Data > bool Splay <
+	Data >::remove(const Data & data) {
 	Node < Data > *f = find(this->root, data);
 	std::cout << f << std::endl;
 	if (!f)
 	    return false;
-	//assert(f != NULL);
+	// assert(f != NULL);
 	if (f == NULL)
 	    return false;
 	if (f->value == data)	// czy znaleźliśmy element?
@@ -500,13 +534,19 @@ namespace mmk {
 	splay(f);
 	return false;
     }
-    template < typename Data > bool Splay < Data >::remove(Node < Data > *n) {	// n musi należeć do drzewa
+    template < typename Data > bool Splay < Data >::remove(Node < Data > *n) {	// n 
+	// musi 
+	// należeć 
+	// do 
+	// drzewa
 	if (!n)
 	    return false;
 	Node < Data > *tmp = n->parent;	// gdy n==root to tmp==NULL
-	delNode(n);		// delNode ustawi this->root na NULL gdy n==root
+	delNode(n);		// delNode ustawi this->root na NULL gdy
+	// n==root
 	if (tmp)
-	    splay(tmp);		// jeśli n==root, tmp==NULL, a więc nie robimy splaya
+	    splay(tmp);		// jeśli n==root, tmp==NULL, a więc nie
+	// robimy splaya
 	return true;
     }
     template < typename Data > void Splay < Data >::plant(Data values[],

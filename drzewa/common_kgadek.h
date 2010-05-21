@@ -8,6 +8,6 @@ namespace print_tree {
         void _print(avlNode*, int);
         void print_rev(avlNode*, int);
         void print_norm(avlNode*, int);
-};
+}
 
 #endif

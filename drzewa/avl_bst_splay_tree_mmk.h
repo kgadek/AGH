@@ -8,12 +8,14 @@ namespace mmk {
 
     template < typename Data > struct Node {
       public:
-	short int bf;		//balance factor
 	Data value;
+	short int bf;		//balance factor
 
 	 Node < Data > *left, *right, *parent;
 	 Node(const Data & val = NULL, const int & = 0);
 	~Node();
+	 Node<Data>& operator=(const Node&);		/* -Weffc++ warning-killer */
+	 Node(const Node&);
 	void print();
 	static void print(const Node < Data > *root);
       private:
@@ -26,17 +28,19 @@ namespace mmk {
       public:
 	Tree();
 	Tree(const Data & value);
-	~Tree();
+	virtual ~Tree();
 	 Node < Data > *getRoot() {
 	    return root;
 	} void print();
+	 Tree(const Tree&);		/* -Weffc++ warning-killer */
+	 Tree<Data>& operator=(const Tree&);
       protected:
 	bool cleanup(Node < Data > *p);
     };
   template < typename Data > class BST:public Tree < Data > {
       public:
 	BST();
-	~BST();
+	virtual ~BST();
 	BST(const Data & value);
 	void insert(const Data & value);
 	void plant(Data values[], const int &size);
