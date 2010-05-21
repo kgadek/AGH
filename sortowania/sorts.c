@@ -128,7 +128,7 @@ void mergesort_mk(int *tab, int len) {
 void mergesort_mk_int(int *tab, int l, int p) {
     int s, i1, i2, i;
     int *b;
-    b = malloc((p-l+1)*sizeof *b);
+    b = malloc((unsigned int)(p-l+1)*sizeof *b);
     if(b==NULL) {
 	fprintf(stderr,"Nie mozna zadeklarowac pamieci.\n");
 	exit(1);

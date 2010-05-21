@@ -20,7 +20,7 @@ int main(int argc, char *argv[]) {
 	exit(1);
     }
     scanf("%d",&n);
-    t = malloc(n*sizeof *t);
+    t = malloc((unsigned int)n*sizeof *t);
     if(t==NULL) {
 	fprintf(stderr,"Nie mozna zadeklarowac pamieci.\n");
 	exit(1);
