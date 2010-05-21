@@ -3,16 +3,32 @@
 
 class node {
 public:
-	node *left, *right;
 	int color;
 	int value;
-	node(int val=0, int col=1) { value=val; color=col; left=right=NULL; }
+	node *left, *right;
+	node(int val=0, int col=1)
+		: color(col), value(val), left(NULL), right(NULL)
+		{}
 	~node() { if(left) delete left; if(right) delete right; }
+	/* kod tylko by g++ warningow nie rzucal, nieprzydatny wiec prawie zerowa
+	   faktyczna funkcjonalnosc */
+	node& operator=(const node&);
+	node(const node &x)
+		: color(x.color), value(x.value), left(NULL), right(NULL)
+		{}
 };
+
+node& node::operator=(const node &x) {
+	color = x.color;
+	value = x.value;
+	left = right = NULL;
+	return *this;
+}
 
 namespace print_tree {
 	int a=1, b=0, c=5;
 	void _print(node *x, int h) {
+		/*  */
 		if(h<=0) return;
 		if(x==NULL) {
 			for(h=(1<<(h-1))-1;h>=0;--h)
