@@ -3,9 +3,10 @@ CC			= gcc
 CXX			= g++
 CPAS			= ppc386
 # Opcje kompilacji C ANSI pedantic, C++ i Pascala
-CFLAGS_ANSI		= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
+CFLAGS			= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
 			  -Wcast-qual -Wwrite-strings
-CXXFLAGS		= -Wall
+CXXFLAGS		= -W -Wall -Wshadow -Weffc++ -Wformat -Wsequence-point\
+			  -Wunused -Wuninitialized -Wfloat-equal 
 PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
@@ -41,7 +42,7 @@ testerka: testerka.cpp $(TESTOBJ)
 #  Reguly ogolne                                                               #
 ################################################################################
 %.c.o: %.c
-	$(CC) $(CFLAGS_ANSI) $(LDFLAGS) -c $? -o $@
+	$(CC) $(CFLAGS) $(LDFLAGS) -c $? -o $@
 %.cpp.o: %.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -c $? -o $@
 ################################################################################
