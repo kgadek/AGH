@@ -7,10 +7,9 @@ struct node {
     node *chars[256];		// indeksy to literki (znaki)
     bool end;			// czy dany wezel jest koncem stringa ?
     // konstruktor
-     node() {
+     node() : end(0) {
 	for (int i = 0; i < 256; i++)
 	    chars[i] = NULL;
-	end = 0;
 }};
 
 node *p;
@@ -21,12 +20,12 @@ void trie_Add(const char *str)	// dodawanie stringa do drzewa
     int i = 0;			// numer litery
     while (str[i])		// petla chodzaca po literach
     {
-	if (s->chars[str[i]] == NULL)
-	    s->chars[str[i]] = new node;	// jezeli nie ma wezla to stworz
+	if (s->chars[(unsigned int)str[i]] == NULL)
+	    s->chars[(unsigned int)str[i]] = new node;	// jezeli nie ma wezla to stworz
 	if (!str[i + 1])
-	    s->chars[str[i]]->end = 1;	// jezeli to ostatnia litera to ustaw end
+	    s->chars[(unsigned int)str[i]]->end = 1;	// jezeli to ostatnia litera to ustaw end
 
-	s = s->chars[str[i]];	// nastepny wezel
+	s = s->chars[(unsigned int)str[i]];	// nastepny wezel
 	i++;			// nastepna litera
     }
 }
@@ -36,7 +35,7 @@ bool trie_Search(const char *str)	// szukanie czy string w drzewie
     node *s = p;		// do poruszania sie po drzewie
     int i = 0;			// licznik znakow
     while (str[i])		// petla chodzi po literach
-	if (!(s = s->chars[str[i++]]))
+	if (!(s = s->chars[(unsigned int)str[i++]]))
 	    return false;	// przesuwa i sprawdza czy istnieje wezel
     // jak nie to nie ma slowa
     if (s->end)
@@ -54,7 +53,7 @@ void trie_Del(const char *str)	// usuwanie slow z drzewa
 	int i = 0;
 	while (str[i]) {
 	    sprev = s;
-	    s = s->chars[str[i++]];
+	    s = s->chars[(unsigned int)str[i++]];
 	}			// ustaw na koncowa litere
 	if (s)
 	    s->end = 0;
