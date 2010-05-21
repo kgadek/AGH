@@ -6,7 +6,7 @@ CPAS			= ppc386
 CFLAGS			= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
 			  -Wcast-qual -Wwrite-strings
 CXXFLAGS		= -W -Wall -Wshadow -Weffc++ -Wformat -Wsequence-point\
-			  -Wunused -Wuninitialized -Wfloat-equal 
+			  -Wunused -Wuninitialized -Wfloat-equal -ansi -pedantic
 PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm

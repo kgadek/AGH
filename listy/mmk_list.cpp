@@ -88,11 +88,11 @@ namespace mmk {
 			head = p;
 		}
 	private:
-		void insert(Node<D>** head, Node<D>* node) {
-			while (*head && (*head)->data < node->data)
-				head = &(*head)->next;
-			node->next = *head;
-			*head = node;
+		void insert(Node<D>** localHead, Node<D>* node) {
+			while (*localHead && (*localHead)->data < node->data)
+				localHead = &(*localHead)->next;
+			node->next = *localHead;
+			*localHead = node;
 		}
 	};
 
@@ -202,15 +202,15 @@ namespace mmk {
 			delete (sorted);
 			sorted = NULL;
 		}
-		void insert(Node2<D>** head, int val) {
-			while (*head && (*head)->data <= val)
-				head = &(*head)->next;
+		void insert(Node2<D>** localHead, int val) {
+			while (*localHead && (*localHead)->data <= val)
+				localHead = &(*localHead)->next;
 			Node2<D>* node = new Node2<D> (val);
-			node->next = *head;
-			if (*head)
-				node->prev = (*head)->prev;
+			node->next = *localHead;
+			if (*localHead)
+				node->prev = (*localHead)->prev;
 			else node->prev = NULL;
-			*head = node;
+			*localHead = node;
 		}
 		void insertionsort() {
 			Node2<D>* k = new Node2<D> (-1);
@@ -250,9 +250,12 @@ namespace mmk {
 				if (tmp) (*p)->next->prev = (*p)->next = NULL;
 				*p = tmp;
 			}
-			if (!(*p1 == NULL && *p2 == NULL)) if (*p1 == NULL)
-				k->next = *p2;
-			else k->next = *p1;
+			if (*p1 != NULL || *p2 != NULL) {
+				if (*p1 == NULL)
+					k->next = *p2;
+				else
+					k->next = *p1;
+			}
 			*p1 = (guard->next);
 			(*p1)->prev = NULL;
 			guard->next = NULL;
