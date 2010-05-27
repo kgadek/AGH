@@ -10,10 +10,10 @@ CXXFLAGS		= -W -Wall -Wshadow -Weffc++ -Wformat -Wsequence-point\
 PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
-# Lista rzeczy do zrobienia po wydaniu komendy `make all`
-ALLOBJ			= las.cpp.o
 # CppUnit: lista modulow testerki
-TESTOBJ			= 
+TESTOBJ			= testy/LAS_kgadek_tc1.cpp.o
+# Lista rzeczy do zrobienia po wydaniu komendy `make all`
+ALLOBJ			= testerka
 
 # Regula clean
 .PHONY: clean
@@ -30,8 +30,8 @@ all: $(ALLOBJ)
 ################################################################################
 #  Tester (CppUnit)                                                            #
 ################################################################################
-testerka: testerka.cpp $(TESTOBJ)
-	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit $? -o $@
+testerka: $(TESTOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit testerka.cpp $? -o $@
 ################################################################################
 #  Reguly ogolne                                                               #
 ################################################################################

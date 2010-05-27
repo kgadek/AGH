@@ -1,9 +1,9 @@
 #ifndef _LAS_KGADEK
 #define _LAS_KGADEK
 
-#include <stdlib.h>
+#include <cstdlib>
 
-void LAS(int *t, int n, int **ff, int **ww) {
+void LAS(int *t, int n, int **ff, int **ww, int *mm) {
 	/* Znajdowanie najdluzszego podciagu rosnacego (Longest Ascending
 	   Sequence) w tablicy t[0 .. n-1].
 
@@ -12,6 +12,7 @@ void LAS(int *t, int n, int **ff, int **ww) {
 		n - dlugosc tablicy
 		ff - tu zwracany jest wskaznik na obliczona tablice fi
 		ww - tu zwracany jest wskaznik na obliczona tablice w
+		mm - tu zwracany jest indeks konca najdluzszego podciagu
 
 	   Algorytm dziala dynamicznie; wymaga pamieci O(n) i czasu O(n^2).
 
@@ -41,17 +42,19 @@ void LAS(int *t, int n, int **ff, int **ww) {
 						   t[0 .. i-1] do ktorego mozna dolaczyc t[i] */
 			if(t[j]<t[i] && fi[jm]<fi[j]) {		
 				jm = j;				/* zmieniamy podciag na dluzszy */
-				w[i] = j;			/* zapamietujemy poprzednik */
+				w[i] = j;			/* zapamietujemy nowy poprzednik */
 			}
-			if(fi[i]>mf) {				/* jesli LAS t[0 .. i] najdluzszy z
-								   dotychczas znalezionych */
-				mf = fi[i];			/*  -> zapamietaj */
-				mi = i;
-			}
+		}
+		fi[i] = fi[jm]+1;
+		if(fi[i]>mf) {				/* jesli LAS t[0 .. i] najdluzszy z
+							   dotychczas znalezionych */
+			mf = fi[i];			/*  -> zapamietaj */
+			mi = i;
 		}
 	}
 	*ff = fi;				/* A3. Zwracanie wartosci */
 	*ww = w;
+	*mm = mi;
 	return;
 	
 }

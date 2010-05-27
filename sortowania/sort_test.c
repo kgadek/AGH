@@ -33,6 +33,8 @@ int main(int argc, char *argv[]) {
     printf("Exec time: %d [ticks]\n",(int)(stop-start));
     if(!check(t,n)) {
 	fprintf(stderr,"Zle posortowana tablica!\n");
+	free(t);
+	return 1;
     }
     /*for(i=0; i<n; ++i)
 	printf("%d ",t[i]);

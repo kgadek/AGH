@@ -53,7 +53,7 @@ namespace print_tree {
 		_print(x,h);
 		b-=(h-1)*c;
 	}
-};
+}
 
 int main() {
 	node *R = new node(11,1);
