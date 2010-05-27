@@ -1,0 +1,11 @@
+#!/bin/bash
+
+a="drzewa jtp-lab listy sortowania asd"
+
+for x in $a; do
+	echo ******************** ./$x ********************;
+	cd $x;
+	if [ -x testerka ]; then ./testerka; fi
+	make all;
+	cd ..;
+done;
