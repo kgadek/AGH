@@ -1,0 +1,7 @@
+#!/bin/bash
+a="drzewa jtp-lab listy sortowania asd"
+for x in $a; do
+	cd $x;
+	make clean;
+	cd ..;
+done

@@ -3,9 +3,10 @@
 a="drzewa jtp-lab listy sortowania asd"
 
 for x in $a; do
-	echo ******************** ./$x ********************;
 	cd $x;
-	if [ -x testerka ]; then ./testerka; fi
-	make all;
+	if [ ! -x testerka ]; then
+		make testerka > /dev/null 2&> /dev/null;
+	fi;
+	if [ -x testerka ]; then ./testerka; fi;
 	cd ..;
 done;

@@ -22,8 +22,7 @@ ALLMOD			= avl_bst_splay_tree_mmk.cpp.o rb_kgadek.cpp.o\
 TESTOBJ			= avl_bst_splay_tree_mmk.cpp.o\
 			  testy/avl_mmk_tc1.cpp.o\
 			  common_kgadek.cpp.o avl_kgadek.cpp.o\
-			  testy/avl_kgadek_tc1.cpp.o\
-			  testy/avl_kgadek_tc2.cpp.o
+			  testy/avl_kgadek_tc1.cpp.o
 # Uwaga! Pliki *.cpp maja po 27MB a ich kompilacja trwa nawet 14min!
 BIGTESTOBJ		= testy/avl_kgadek_tc2.cpp.o
 
