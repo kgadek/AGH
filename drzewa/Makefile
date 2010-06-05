@@ -11,26 +11,31 @@ PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
 # Lista rzeczy do zrobienia po wydaniu komendy `make all`
-ALLOBJ			= avl_bst_splay_tree_mmk.cpp.o bst_bniemcz\
-			  dict_mnowak priorityqueue_bniemcz rb_kgadek.cpp.o\
-			  rb_kgadek_pas splay_ijurkowski.c.o trie_bniemcz\
-			  trie_rlazarz rb_prettyprint avl_kgadek.cpp.o testerka
+ALLOBJ			= bst_bniemcz dict_mnowak priorityqueue_bniemcz\
+			  rb_kgadek_pas trie_bniemcz trie_rlazarz\
+			  rb_prettyprint testerka testy/mktests.cpp
+ALLMOD			= avl_bst_splay_tree_mmk.cpp.o rb_kgadek.cpp.o\
+			  splay_ijurkowski.c.o avl_kgadek.cpp.o 
 # CppUnit: lista modulow testerki
+# Niestety, rygorystycznie dobrane flagi kompilatora powoduja wyrzucenie
+# duzej ilosci warnow przy kompilacji testow... Trzeba przebolec...
 TESTOBJ			= avl_bst_splay_tree_mmk.cpp.o\
 			  testy/avl_mmk_tc1.cpp.o\
 			  common_kgadek.cpp.o avl_kgadek.cpp.o\
-			  testy/avl_kgadek_tc1.cpp.o
+			  testy/avl_kgadek_tc1.cpp.o\
+			  testy/avl_kgadek_tc2.cpp.o
+# Uwaga! Pliki *.cpp maja po 27MB a ich kompilacja trwa nawet 14min!
+BIGTESTOBJ		= testy/avl_kgadek_tc2.cpp.o
 
 # Regula clean
-.PHONY: clean
+.PHONY: clean all testerka $(ALLOBJ)
 clean:
 	rm -f *.o *~ testy/*.o testy/*.~
 	find . -mount -perm -111 -and -type f -exec rm {} \;
 	find . -mount -name '*.o' -and -type f -exec rm {} \;
 
 # Regula all
-.PHONY: all
-all: $(ALLOBJ)
+all: $(ALLMOD) $(ALLOBJ)
 
 
 ################################################################################
@@ -38,6 +43,11 @@ all: $(ALLOBJ)
 ################################################################################
 testerka: testerka.cpp $(TESTOBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit $? -o $@
+bigtests: prepare_bigtests $(BIGTESTOBJ) testerka
+prepare_bigtests: testy/mktests.cpp
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) testy/mktests.cpp -o testy/mktests
+	./testy/mktests > testy/avl_kgadek_tc2.cpp
+	indent -kr testy/avl_kgadek_tc2.cpp
 ################################################################################
 #  Reguly ogolne                                                               #
 ################################################################################

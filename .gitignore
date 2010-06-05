@@ -3,4 +3,4 @@
 *.swo
 *~
 *tar*
-drzewa/CPPUNIT
+drzewa/testy/avl_kgadek_tc2.cpp

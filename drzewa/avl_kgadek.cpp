@@ -22,8 +22,9 @@ avlNode* avlInsert(avlNode **R, int k) {
 	 */
 	avlNode *head, *p, *q, *r, *s, *t, *u;
 	int a,d;
-	if(*R == NULL) {					/* Przypadek specjalny: puste drzewo */
+	if((*R) == NULL) {					/* A0: puste drzewo */
 		(*R) = MEMALLOC(avlNode);	/* utworz node'a */
+		assert( *R != NULL );
 		avlInit(*R);			/* zainicjuj */
 		(*R)->key = k;			/* ustaw mu wartosc */
 		return *R;
@@ -31,33 +32,32 @@ avlNode* avlInsert(avlNode **R, int k) {
 	u = NULL;				/* aby sie kompilator nie rzucal */
 	head = MEMALLOC(avlNode); 		/* utworzenie HEAD */
 	avlInit(head);
-	head->l[0] = *R;					/* A1. inicjacja */
+	head->l[1] = *R;					/* A1. inicjacja */
 	t = head;
-	q = p = s = *R;
-	while(q != NULL) {					/* A2. szukanie */
+	p = s = *R;
+	while(1) {						/* A2. szukanie */
 		if(k == p->key)			/* exit_success */
 			return p;
 		d = (k > p->key);
 		q = p->l[d];					/* A3/A4. przejscie lewo/prawo */
-		if(q == NULL) {
-			p->l[d] = u = q = MEMALLOC(avlNode);
-			avlInit(q);
+		if(q == NULL)
 			break;
-		} else if(q->bal != 0) {
+		if(q->bal != 0) {
 			t = p;
 			s = q;
 		}
 		p = q;
 	}
-	q->key = k;						/* A5. wstawianie */
-	r = p = s->l[ k > s->key ];				/* A6. poprawa wartosci balansow */
+	p->l[d] = u = q = MEMALLOC(avlNode);			/* A5. wstawianie */
+	avlInit(q);
+	q->key = k;
+	r = p = s->l[ a = (k > s->key) ];			/* A6. poprawa wartosci balansow */
+	a = 2*a - 1;
 	while(p!=q) {				/* dla kazdego wierzcholka miedzy P a Q (bez Q) */
 		d = (k > p->key);		/* 	wybierz kierunek */
 		p->bal = 2*d - 1;		/* 	popraw balans */
 		p = p->l[d];			/* 	przejdz dalej */
 	}
-	q = s;					/* zapamietaj s (to bedzie nowy rodzic rotowanego poddrzewa) */
-	a = (k < s->key)?-1:1;					/* A7. ustawienie balansu drzewa */
 	if(s->bal == 0) {				/* A7.i - lekkie zaburzenie balansu (+1 lub -1) */
 		s->bal = a;				/* 	czyli drzewo uroslo */
 		return u;
@@ -65,15 +65,15 @@ avlNode* avlInsert(avlNode **R, int k) {
 		s->bal = 0;
 		return u;
 	}						/* A7.iii - zaburzenie balansu (+2 lub -2) */
+	assert( s->bal == a );
+	d = a<0?0:1;
 	if(r->bal == a ) {				/* A8. pojedyncza rotacja */
-		d = a<0?0:1;			/* wybierz kierunek */
 		p = r;				/* rotuj w lewo/prawo (a = +1/-1) wokol wierzch. S */
 		s->l[d] = r->l[!d];
 		r->l[!d] = s;
 		s->bal = r->bal = 0;
 	} else {					/* A9. podwojna rotacja */
-		d = a<0?0:1;
-		p = r->l[1-d];			/* rotuj w prawo/lewo (a = +1/-1) wokol wierz. R */
+		p = r->l[!d];			/* rotuj w prawo/lewo (a = +1/-1) wokol wierz. R */
 		r->l[!d] = p->l[d];		/* a nastepne */
 		p->l[d] = r;			/* rotuj w lewo/prawo (a = +1/-1) wokol wierz. S */
 		s->l[d] = p->l[!d];
@@ -83,11 +83,10 @@ avlNode* avlInsert(avlNode **R, int k) {
 			s->bal = -a;		/* ( s->bal , r->bal ) = | (0,0)  , gdy p->bal == 0*/
 		else if(p->bal == -a)		/*                       | (0,a)  , gdy p->bal == -a */
 			r->bal = a;
+		p->bal = 0;
 	}
-	if(head == t)			/* ten fragm. zerznalem (problemy z podmiana korzenia) [2] */ 
-		(*R) = p;			/* gdy rotacja zmienila korzen to operuj na korzeniu */
-	else
-		t->l[s == t->l[1]] = p;		/* wpp popraw wskazanie od ojca P */
+	t->l[s == t->l[1]] = p;		/* wpp popraw wskazanie od ojca P */
+	(*R) = head->l[1];
 	MEMFREE(head);				/* pozbycie sie tymczasowego HEAD-a */
 	return u;				/* zwroc wsk. do dodanego wierzcholka */
 }
