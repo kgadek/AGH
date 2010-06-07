@@ -11,12 +11,12 @@ PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
 # CppUnit: lista modulow testerki
-TESTOBJ			= testy/LAS_kgadek_tc1.cpp.o
+TESTOBJ			= testy/LAS_kgadek_tc1.cpp.o testy/MSP_kgadek_tc1.cpp.o
 # Lista rzeczy do zrobienia po wydaniu komendy `make all`
 ALLOBJ			= testerka
 
 # Regula clean
-.PHONY: clean
+.PHONY: clean all
 clean:
 	rm -f *.o *~ testy/*.o testy/*.~
 	find . -mount -perm -111 -and -type f -exec rm {} \;

@@ -42,7 +42,8 @@ all: $(ALLMOD) $(ALLOBJ)
 ################################################################################
 testerka: testerka.cpp $(TESTOBJ)
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit $? -o $@
-bigtests: prepare_bigtests $(BIGTESTOBJ) testerka
+bigtests: prepare_bigtests testerka.cpp $(TESTOBJ) $(BIGTESTOBJ)
+	$(CXX) $(CXXFLAGS) $(LDFLAGS) -lcppunit $? -o $@
 prepare_bigtests: testy/mktests.cpp
 	$(CXX) $(CXXFLAGS) $(LDFLAGS) testy/mktests.cpp -o testy/mktests
 	./testy/mktests > testy/avl_kgadek_tc2.cpp

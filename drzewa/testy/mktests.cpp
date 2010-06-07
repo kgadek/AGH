@@ -55,8 +55,8 @@ int main()
 	for (int b = digits, div = perm; b > 0; b--) {
 	    div /= b;
 	    int index = (a / div) % b;
-	    printf("\tCPPUNIT_ASSERT(avlInsert(&root,(%c)) != NULL);\n",
-		   avail[index]);
+	    printf("\tCPPUNIT_ASSERT(avlInsert(&root,(%c)) != NULL);\n", avail[index]);
+	    printf("\tCPPUNIT_ASSERT(avlInsert(&root,(%c)) != NULL);\n", avail[index]);
 	    avail[index] = avail[b - 1];
 	}
 	printf("\n\t");
