@@ -15,7 +15,8 @@ ALLOBJ			= bst_bniemcz dict_mnowak priorityqueue_bniemcz\
 			  rb_kgadek_pas trie_bniemcz trie_rlazarz\
 			  rb_prettyprint testerka testy/mktests.cpp
 ALLMOD			= avl_bst_splay_tree_mmk.cpp.o rb_kgadek.cpp.o\
-			  splay_ijurkowski.c.o avl_kgadek.cpp.o 
+			  splay_ijurkowski.c.o avl_kgadek.cpp.o\
+			  bst_kgadek.cpp.o
 # CppUnit: lista modulow testerki
 # Niestety, rygorystycznie dobrane flagi kompilatora powoduja wyrzucenie
 # duzej ilosci warnow przy kompilacji testow... Trzeba przebolec...
