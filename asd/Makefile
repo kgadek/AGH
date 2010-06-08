@@ -11,7 +11,8 @@ PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
 # CppUnit: lista modulow testerki
-TESTOBJ			= testy/LAS_kgadek_tc1.cpp.o testy/MSP_kgadek_tc1.cpp.o
+TESTOBJ			= testy/LAS_kgadek_tc1.cpp.o testy/MSP_kgadek_tc1.cpp.o\
+			  testy/lider_kgadek_tc1.cpp.o
 # Lista rzeczy do zrobienia po wydaniu komendy `make all`
 ALLOBJ			= testerka
 
