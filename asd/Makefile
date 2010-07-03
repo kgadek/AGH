@@ -5,8 +5,8 @@ CPAS			= ppc386
 # Opcje kompilacji C ANSI pedantic, C++ i Pascala
 CFLAGS			= -ansi -pedantic -Wall -W -Wconversion -Wshadow\
 			  -Wcast-qual -Wwrite-strings
-CXXFLAGS		= -W -Wall -Wshadow -Weffc++ -Wformat -Wsequence-point\
-			  -Wunused -Wuninitialized -Wfloat-equal -ansi -pedantic
+CXXFLAGS		= -W -Wall -Wshadow -Wformat -Wsequence-point -Wunused\
+			  -Wuninitialized -Wfloat-equal -ansi -pedantic -Weffc++ 
 PASFLAGS		= -XS -O2
 # Flagi linkera
 LDFLAGS			= -O2 -lm
