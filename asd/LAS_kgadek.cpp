@@ -7,6 +7,16 @@ void LAS(int *t, int n, int **ff, int **ww, int *mm) {
 	/* Znajdowanie najdluzszego podciagu rosnacego (Longest Ascending
 	   Sequence) w tablicy t[0 .. n-1].
 
+	   Dynamicznie obliczana jest tablica ff: ff[i]=x oznacza, że
+	   najdluzszy podciag rosnacy konczacy sie na elemencie i ma
+	   dlugosc x. Jednoczesnie obliczana jest talibca poprzednikow
+	   ww: ww[i]=-1 gdy ff[i]=1 lub ww[i]=j gdy ff[i]>1 i w najdluzszym
+	   podciagu konczacym sie na elemencie i, element o indeksie j
+	   poprzedza i (zachodzi tez ff[j] = jj[i] - 1)
+
+	   Czas dzialania: O(n^2)
+	   Pamiec: O(n)
+
 	   Parametry:
 	   	t - wskaznik do tablicy wartosci
 		n - dlugosc tablicy
@@ -14,11 +24,10 @@ void LAS(int *t, int n, int **ff, int **ww, int *mm) {
 		ww - tu zwracany jest wskaznik na obliczona tablice w
 		mm - tu zwracany jest indeks konca najdluzszego podciagu
 
-	   Algorytm dziala dynamicznie; wymaga pamieci O(n) i czasu O(n^2).
-
 	   Uwagi:
 	   	* NIE SA obslugiwane bledy alokacji etc.
-	   	* recznie trzeba czyscic pamiec z ff i ww po wykorzystaniu
+	   	* trzeba czyscic pamiec z ff i ww po wykorzystaniu
+		  juz poza algorytmem
 	*/
 	   
 	int *fi, *w,		/* tablice wartosci i poprzednika */

@@ -6,13 +6,14 @@ int MSP(int *tab, int n) {
 	/* Znajdowanie maksymalnego spojnego podciagu (Maximum
 	 [Contiguous] Subsequence Problem)
 	 
+	Zwraca najwieksza mozliwa do uzyskania wartosc.
+
+	Czas dzialania: O(n)
+	Pamiec: O(1)
+
 	Parametry:
 	 	t - tablica wejsciowa
-	 	n - dlugosc tablicy
-	 
-	Algorytm dziala dynamicznie; wymaga O(1) pamieci i O(n) czasu
-	
-	Zwraca najwieksza mozliwa do uzyskania wartosc.
+	 	n - dlugosc tablicy 
 	*/
 	int c=0,		/* obecnie przetwarzana wartosc */
 	    maksimum=0,		/* maksymalna uzyskana wartosc */
