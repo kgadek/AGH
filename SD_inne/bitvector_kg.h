@@ -20,7 +20,7 @@ class bitvector {
       */
     uchar *p;
     /**
-      * Ilosc przechowywanych danych.
+      * Ilość przechowywanych danych.
       */
     uint s;
     /**
